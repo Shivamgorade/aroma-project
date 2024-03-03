@@ -1,0 +1,145 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'StratosLCWeb-Regular', sans-serif; /* Replace 'YourFontName' with the name of your font */
+    }
+.container {
+      background-color: #000000;
+      max-width: 450px;
+      width: 100%;
+      margin: 0 auto;
+      margin-top: 0px; /* Adjust as per your header and scroll menu height */
+      overflow-y: auto; /* Enable vertical scrolling */
+      height: 100vh; /* Adjust as per your header and scroll menu height */
+    }
+
+/*------------------------------------------------------------------------------- Header section with logo and title -*/
+.header {
+    width: 100%;
+    max-width: 434px;
+    background-color: #000000;
+    top: 0; /* header height from webpage */
+    position: fixed;
+    padding: 2px 8px;
+    display: flex;
+    justify-content: flex-start;
+    z-index: 1000;
+    transition: top 0.5s ease; /* Smooth transition */
+}
+
+/* ----------------------------------------------------------------------------------------Title of the application */
+.header h1 {
+
+   
+    font-size: 25px;
+    margin-left: 5px;
+}
+
+/* --------------------------------------------------------------------Logo image */
+.header img {
+    max-width: 60px;
+    width: auto;
+    height: auto;
+}
+
+/* --------------------------------------------------------------------------------Scrollable menu container */
+.scrollmenu {
+    width: 100%;
+    max-width: 450px;
+    position: fixed; 
+    top: 66px; /* scrollmenu height from header  */
+    justify-content: space-between;
+    display: block;
+    margin-top: 0px;
+    background-color: #ff0000;
+    z-index: 1000;
+    white-space: nowrap;
+    overflow-x: auto;
+    transition: top 0.5s ease, box-shadow 0.0s ease; /* Add box-shadow transition */
+  
+
+}
+.shadow {
+    box-shadow: 0 8px 8px -6px rgba(0, 0, 0, 0.4);
+}
+
+
+/* -----------------------------------------------------------------------------Individual card in the scrollable menu */
+.card {
+    display: inline-block;
+    max-width: 300px;
+    margin: 10px; /* Add margin around each card for spacing */
+    text-align: center;
+    font-family: arial;
+   
+  
+}
+
+
+/* ---------------------------------------------------------------------------Style for card images */
+.card img {
+ 
+    max-width: 65px;
+    width: auto;
+    height: auto;
+}
+
+/*------------------------------------------------------------------------ Style for text within the cards */
+.card p {
+ 
+    margin-top: 2px;
+    margin-bottom: 0;
+}
+.highlighter {
+    background-color: #f7cf22;
+    position: absolute;
+    top: 12px;
+    left: 0;
+    width: 65px; /* Set your desired width */
+    height: 65px; /* Set your desired height */
+    border-radius: 15px; /* Set border radius */
+    will-change: transform;
+    transition: transform 0.9s ease; /* Adjust the transition duration as needed */
+    z-index: -1; /* Set a lower z-index to position it behind the cards */
+  }
+
+.grid-container {
+    margin-top: 185px;
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 4px;
+    padding: 7px;
+}
+.item-card {
+    padding: 20px;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    text-align: center;
+    
+}
+.item-card img{
+     max-width: 65px;
+    width: auto;
+    height: auto;
+}
+.hidden-content {
+    display: none;
+    position: fixed; /* Fixed positioning ensures it's relative to the viewport */
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Center the content */
+    z-index: 9999;
+    background-color: #6c5858;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    text-align: center;
+    width: 100%;
+    max-width: 412px;
+    margin: 0 auto;
+    height: 100%;
+    
+}

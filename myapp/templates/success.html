@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Success Page</title>
+</head>
+<body>
+    <h2>Card Selection Form</h2>
+    <form id="cardForm">
+        {% csrf_token %}
+        <div class="card-container">
+            <label>
+                <input type="radio" name="selected_card" value="Card 1"> Card 1
+            </label>
+            <label>
+                <input type="radio" name="selected_card" value="Card 2"> Card 2
+            </label>
+            <label>
+                <input type="radio" name="selected_card" value="Card 3"> Card 3
+            </label>
+            <!-- Add more cards as needed -->
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="script.js"></script>
+    {% comment %} < <h2>Digital Menu</h2>
+<form method="post" action="{% url 'place_order' %}">
+    {% csrf_token %}
+    {% for category in categories %}
+    <h3>{{ category.name }}</h3>
+    <ul>
+        {% for item in menu_items %}
+        {% if item.category == category %}
+        <li>{{ item.name }} - ${{ item.price }} <input type="checkbox" name="items" value="{{ item.id }}"></li>
+        {% endif %}
+        {% endfor %}
+    </ul>
+    {% endfor %}
+    <input type="hidden" name="total_price" id="total_price" value="0.00">
+    <button type="submit">Place Order</button>
+</form> {% endcomment %}
+</body>
+</html>
