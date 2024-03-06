@@ -1,7 +1,8 @@
-# urls.py
+# myapp/urls.py
+
 from django.urls import path
-from .views import menu, place_order
+from . import views
 
 urlpatterns = [
-    path('', menu, name='menu'),
+    path('', views.card_list, name='card_list'),
 ]

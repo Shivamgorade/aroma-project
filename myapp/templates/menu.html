@@ -10,120 +10,92 @@
     <link rel="stylesheet" type="text/css" href="{% static 'fonts/StratosLCWeb-Regular.ttf' %}">
 </head>
 <body>
-
+    {% comment %} -------------------------------------------------------------------------------------------------MAIN CONTAINER---------------- {% endcomment %}
     <div class="container" id="container">
+       
+
+
+        {% comment %} --------------------------------------------------------------------------------------------- -HEADER----------------------- {% endcomment %}
         <div class="header" id="header">
             <img src="{% static 'images/logo.png' %}" alt="Hotel Logo">
             <h1>AROMA</h1>
         </div>
-        <div class="scrollmenu" id="scrollmenu">
+
+{% comment %} -------------------------------------------------------------------------------------------------------SCROLLMENU------------------ {% endcomment %}
+         <div class="scrollmenu" id="scrollmenu">
+
+            <body onload="setDefault()"> <!------------------------------------------------------------------ FOR DEFAULT CARD SELECTION -->
+
             <div class="highlighter"></div> <!-- Highlighter element -->
-            <div class="card active">
+
+            <div class="card active" onclick="toggleItems('burger')">
                 <img src="{% static 'images/burger.png' %}" alt="Burger Image"> 
                 <p>Burger</p>               
             </div>
         
-            <div class="card">
+            <div class="card" onclick="toggleItems('veg')">
                 <img src="{% static 'images/burger.png' %}" alt="Burger Image"> 
                 <p>veg</p>               
             </div>
         
-            <div class="card">
+            <div class="card" onclick="toggleItems('nonveg')">
                 <img src="{% static 'images/burger.png' %}" alt="Burger Image"> 
                 <p>non veg</p>               
             </div>
         
-            <div class="card">
+            <div class="card" onclick="toggleItems('colddrinks')">
                 <img src="{% static 'images/burger.png' %}" alt="Burger Image"> 
                 <p>cold drinks</p>               
             </div>
         
-            <div class="card">
-                <img src="{% static 'images/burger.png' %}" alt="Burger Image"> 
-                <p>chinise</p>               
-            </div>
-            <div class="card">
-                <img src="{% static 'images/burger.png' %}" alt="Burger Image"> 
-                <p>veg</p>               
-            </div>
-        
-            <div class="card">
-                <img src="{% static 'images/burger.png' %}" alt="Burger Image"> 
-                <p>non veg</p>               
-            </div>
-        
-            <div class="card">
-                <img src="{% static 'images/burger.png' %}" alt="Burger Image"> 
-                <p>cold drinks</p>               
-            </div>
-        
-            <div class="card">
+            <div class="card" onclick="toggleItems('chinise')">
                 <img src="{% static 'images/burger.png' %}" alt="Burger Image"> 
                 <p>chinise</p>               
             </div>
         </div>
 
+{% comment %} ------------------------------------------------------------------------------html for the grid container corresponding to scroll menu  {% endcomment %}
 
-        <div class="grid-container">
+        <div class="grid-container" id="burger">
+            <div class="grid">
             <div class="item-card" onclick="showContent(1)">
                 <img src="{% static 'images/burger.png' %}" alt="Burger Image"> 
-                <h3> card 1</h3>               
+                <h3> burger 1</h3>               
             </div>
             <div class="item-card" onclick="showContent(2)">
                 <img src="{% static 'images/burger.png' %}" alt="Burger Image"> 
-                <h3>card 2</h3>               
+                <h3>burger 2</h3>               
             </div>
             <div class="item-card" onclick="showContent(3)">
                 <img src="{% static 'images/burger.png' %}" alt="Burger Image"> 
-                <h3>card 3</h3>               
+                <h3>burger 3</h3>               
             </div>
-            <div class="item-card" onclick="showContent(4)">
-                <img src="{% static 'images/burger.png' %}" alt="Burger Image"> 
-                <h3>card 4</h3>               
-            </div>
-    
-            <div class="item-card" onclick="showContent(5)">
-                <img src="{% static 'images/burger.png' %}" alt="Burger Image"> 
-                <h3>card 4</h3>               
-            </div>
-            <div class="item-card" onclick="showContent(5)">
-                <img src="{% static 'images/burger.png' %}" alt="Burger Image"> 
-                <h3>card 4</h3>               
-            </div>
-            <div class="item-card" onclick="showContent(5)">
-                <img src="{% static 'images/burger.png' %}" alt="Burger Image"> 
-                <h3>card 4</h3>               
-            </div>
-            <div class="item-card" onclick="showContent(1)">
-                <img src="{% static 'images/burger.png' %}" alt="Burger Image"> 
-                <h3> card 1</h3>               
-            </div>
-            <div class="item-card" onclick="showContent(2)">
-                <img src="{% static 'images/burger.png' %}" alt="Burger Image"> 
-                <h3>card 2</h3>               
-            </div>
-            <div class="item-card" onclick="showContent(3)">
-                <img src="{% static 'images/burger.png' %}" alt="Burger Image"> 
-                <h3>card 3</h3>               
-            </div>
-            <div class="item-card" onclick="showContent(4)">
-                <img src="{% static 'images/burger.png' %}" alt="Burger Image"> 
-                <h3>card 4</h3>               
-            </div>
-    
-            <div class="item-card" onclick="showContent(5)">
-                <img src="{% static 'images/burger.png' %}" alt="Burger Image"> 
-                <h3>card 4</h3>               
-            </div>
-            <div class="item-card" onclick="showContent(5)">
-                <img src="{% static 'images/burger.png' %}" alt="Burger Image"> 
-                <h3>card 4</h3>               
-            </div>
-            <div class="item-card" onclick="showContent(5)">
-                <img src="{% static 'images/burger.png' %}" alt="Burger Image"> 
-                <h3>card 4</h3>               
-            </div>
+           
         </div>
+    </div>
+        <div class="grid-container" id="veg">
+            <div class="grid">
+            <div class="item-card" onclick="showContent(1)">
+                <img src="{% static 'images/burger.png' %}" alt="Burger Image"> 
+                <h3> VEG 1</h3>               
+            </div>
+            <div class="item-card" onclick="showContent(2)">
+                <img src="{% static 'images/burger.png' %}" alt="Burger Image"> 
+                <h3>VEG 2</h3>               
+            </div>
+            <div class="item-card" onclick="showContent(3)">
+                <img src="{% static 'images/burger.png' %}" alt="Burger Image"> 
+                <h3>VEG 3</h3>               
+            </div>
+          
+        </div>
+        </div>
+       
+
+
+     {% comment %} -------------------------------------------------------------------------------------hidden cards html -------------------------- {% endcomment %}
+
+
         <div class="hidden-content" id="content-1">
             <img src="{% static 'images/burger.png' %}" alt="Burger Image"> 
             <h3>new card 1</h3>  
@@ -139,6 +111,30 @@
             <button onclick="closeContent(3)">Close</button> 
             <h3>new card 3</h3>
         </div>
+
+        {% comment %} -------------------------------------------------------------------------------------------------------JAVASCRIPT------------------ {% endcomment %}
+        
+        {% comment %} --------------------------------------------------------------js for the scrollmenu ------------------------- {% endcomment %}
+        
+        <script>
+            function toggleItems(cardId) {
+              const itemCards = document.querySelectorAll('.grid-container');
+              itemCards.forEach(card => {
+                if (card.id === cardId) {
+                  card.style.display = 'block';
+                } else {
+                  card.style.display = 'none';
+                }
+              });
+            }
+        
+            function setDefault() {
+                // Display default card 1
+                document.getElementById('burger').style.display = 'block';
+              }
+          </script>
+
+
         {% comment %} js for the slide up scroll menu  {% endcomment %}
         <script>
             const header = document.getElementById('header');
@@ -155,14 +151,14 @@
             if (scrollAmount > 0) {
                 // Scroll down
                 if (scrollTop > 50) {
-                header.style.top = '-66px'; // Slide up the header
+                header.style.top = '-62px'; // Slide up the header
                 scrollMenu.style.top = '0px'; // Slide up the menu
                 scrollMenu.classList.add('shadow'); // Add shadow class only when at the top
                 }
             } else {
                 // Scroll up
                 header.style.top = '0'; // Slide down the header
-                scrollMenu.style.top = '66px'; // Slide down the menu
+                scrollMenu.style.top = '62px'; // Slide down the menu
                 if (scrollTop === 0) {
                 scrollMenu.classList.remove('shadow'); // Remove shadow class
                 }

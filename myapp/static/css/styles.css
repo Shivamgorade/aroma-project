@@ -5,7 +5,7 @@ body, html {
     font-family: 'StratosLCWeb-Regular', sans-serif; /* Replace 'YourFontName' with the name of your font */
     }
 .container {
-      background-color: #000000;
+      background-color: #ffffff;
       max-width: 450px;
       width: 100%;
       margin: 0 auto;
@@ -17,15 +17,14 @@ body, html {
 /*------------------------------------------------------------------------------- Header section with logo and title -*/
 .header {
     width: 100%;
-    max-width: 434px;
-    background-color: #000000;
+    max-width: 450px;
+    background-color: #9e1f1f;
     top: 0; /* header height from webpage */
     position: fixed;
-    padding: 2px 8px;
     display: flex;
     justify-content: flex-start;
     z-index: 1000;
-    transition: top 0.5s ease; /* Smooth transition */
+    transition: top 0.9s ease; /* Smooth transition */
 }
 
 /* ----------------------------------------------------------------------------------------Title of the application */
@@ -48,15 +47,15 @@ body, html {
     width: 100%;
     max-width: 450px;
     position: fixed; 
-    top: 66px; /* scrollmenu height from header  */
+    top: 62px; /* scrollmenu height from header  */
     justify-content: space-between;
     display: block;
     margin-top: 0px;
-    background-color: #ff0000;
+    background-color: #691616;
     z-index: 1000;
     white-space: nowrap;
     overflow-x: auto;
-    transition: top 0.5s ease, box-shadow 0.0s ease; /* Add box-shadow transition */
+    transition: top 0.9s ease, box-shadow 0.5s ease; /* Add box-shadow transition */
   
 
 }
@@ -105,14 +104,21 @@ body, html {
   }
 
 .grid-container {
-    margin-top: 185px;
+    display: flex;
+    grid-template-columns: auto auto;
+    gap: 4px;
+    display: none;
+}
+
+.grid{
+    margin-top: 180px;
     display: grid;
     grid-template-columns: auto auto;
     gap: 4px;
     padding: 7px;
 }
+
 .item-card {
-    padding: 20px;
     background-color: #ffffff;
     border: none;
     border-radius: 10px;
@@ -121,9 +127,22 @@ body, html {
     
 }
 .item-card img{
-     max-width: 65px;
+    max-width: 120px;
     width: auto;
     height: auto;
+}
+
+.item-card h3{
+    text-align: left;
+    padding: 10px 15px;
+    margin-bottom: 0px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 0;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+    
+
 }
 .hidden-content {
     display: none;

@@ -78,14 +78,14 @@ function showContent(contentId) {
 //   if (scrollAmount > 0) {
 //     // Scroll down
 //     if (scrollTop > 50) {
-//       header.style.top = '-66px'; // Slide up the header
+//       header.style.top = '-62px'; // Slide up the header
 //       scrollMenu.style.top = '0px'; // Slide up the menu
 //       scrollMenu.classList.add('shadow'); // Add shadow class only when at the top
 //     }
 //   } else {
 //     // Scroll up
 //     header.style.top = '0'; // Slide down the header
-//     scrollMenu.style.top = '66px'; // Slide down the menu
+//     scrollMenu.style.top = '62px'; // Slide down the menu
 //     if (scrollTop === 0) {
 //      scrollMenu.classList.remove('shadow'); // Remove shadow class
 //     }
