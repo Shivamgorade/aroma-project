@@ -96,6 +96,7 @@ function showContent(contentId) {
 
 
 // js for the slider highlighter animation 
+
 {/* document.addEventListener('DOMContentLoaded', function() {
         const highlighter = document.querySelector('.highlighter');
         const menuItems = document.getElementById('scrollmenu');

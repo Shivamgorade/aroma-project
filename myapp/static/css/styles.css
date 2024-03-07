@@ -111,7 +111,7 @@ body, html {
 }
 
 .grid{
-    margin-top: 180px;
+    margin-top: 173px;
     display: grid;
     grid-template-columns: auto auto;
     gap: 4px;
@@ -123,27 +123,40 @@ body, html {
     border: none;
     border-radius: 10px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    
+    max-width: 200px; /* Adjust as needed */
+    padding: 20px;
 }
-.item-card img{
+
+.item-card img {
     max-width: 120px;
     width: auto;
     height: auto;
 }
 
-.item-card h3{
+.content-container {
+    width: 100%;
+}
+
+.item-card h4 {
     text-align: left;
     padding: 10px 15px;
-    margin-bottom: 0px;
+    margin: 0;
     background-color: rgb(255, 255, 255);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 0;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-    
-
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
+
+.item-card .price {
+    text-align: right;
+    margin-top: auto;
+}
+
 .hidden-content {
     display: none;
     position: fixed; /* Fixed positioning ensures it's relative to the viewport */
