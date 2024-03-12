@@ -4,13 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personal Data Form</title>
+    <title>AROMA</title>
     <script src="{% static 'js/script.js' %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'fonts/StratosLCWeb-Regular.ttf' %}">
 </head>
 <body>
     {% comment %} -------------------------------------------------------------------------------------------------MAIN CONTAINER---------------- {% endcomment %}
+    <div class="main-container">
     <div class="container" id="container">
        
 
@@ -42,57 +43,198 @@
         </div>
 
 {% comment %} ------------------------------------------------------------------------------html for the grid container corresponding to scroll menu  {% endcomment %}
-
-        <div class="grid-container" id="burger">
-            <div class="grid">
-                <div class="item-card" onclick="showContent(1)">
-                    <div class="image-container">
-                        <img src="{% static 'images/burger.png' %}" alt="Burger Image"> 
-                    </div>
-                    <div class="content-container">
-                        <h4>burger 1</h4>
-                        <p class="price">$10.99</p>
-                    </div>
-                </div>
-            <div class="item-card" onclick="showContent(2)">
-                <img src="{% static 'images/burger.png' %}" alt="Burger Image"> 
-                <h3>burger 2</h3>               
+ <div class="grid-container" id="burger">
+    <div class="grid" >
+        <div class="item-card"onclick="showContent(1)">
+            <div class="image-container">
+                <img src="{% static 'images/burger.png' %}" alt="Burger Image">
             </div>
-            <div class="item-card" onclick="showContent(3)">
-                <img src="{% static 'images/burger.png' %}" alt="Burger Image"> 
-                <h3>burger 3</h3>               
+            <div class="content-container">
+                <h4>Burger 1....</h4>
+                <p class="price">$10.99</p>
             </div>
-           
         </div>
-    </div>
-        <div class="grid-container" id="veg">
-            <div class="grid">
-            <div class="item-card" onclick="showContent(1)">
-                <img src="{% static 'images/burger.png' %}" alt="Burger Image"> 
-                <h3> VEG 1</h3>               
+        <div class="item-card"onclick="showContent(2)">
+            <div class="image-container">
+                <img src="{% static 'images/logo.png' %}" alt="Burger Image">
             </div>
-            <div class="item-card" onclick="showContent(2)">
-                <img src="{% static 'images/burger.png' %}" alt="Burger Image"> 
-                <h3>VEG 2</h3>               
+            <div class="content-container">
+                <h4>BURGER</h4>
+                <p class="price">$10.99</p>
             </div>
-            <div class="item-card" onclick="showContent(3)">
-                <img src="{% static 'images/burger.png' %}" alt="Burger Image"> 
-                <h3>VEG 3</h3>               
-            </div>
-          
         </div>
+        <div class="item-card"onclick="showContent(3)">
+            <div class="image-container">
+                <img src="{% static 'images/burger.png' %}" alt="BURGER Image">
+            </div>
+            <div class="content-container">
+                <h4>burger 1</h4>
+                <p class="price">$10.99</p>
+            </div>
         </div>
-       
+        <div class="item-card"onclick="showContent(3)">
+            <div class="image-container">
+                <img src="{% static 'images/burger.png' %}" alt="Burger Image">
+            </div>
+            <div class="content-container">
+                <h4>veg3</h4>
+                <p class="price">$10.99</p>
+            </div>
+        </div>
+        <div class="item-card"onclick="showContent(3)">
+            <div class="image-container">
+                <img src="{% static 'images/burger.png' %}" alt="Burger Image">
+            </div>
+            <div class="content-container">
+                <h4>veg3</h4>
+                <p class="price">$10.99</p>
+            </div>
+        </div>
+</div>
+</div>
+<div class="grid-container" id="veg">
+    <div class="grid" >
+        <div class="item-card"onclick="showContent(1)">
+            <div class="image-container">
+                <img src="{% static 'images/burger.png' %}" alt="Burger Image">
+            </div>
+            <div class="content-container">
+                <h4>veg1</h4>
+                <p class="price">$10.99</p>
+            </div>
+        </div>
+        <div class="item-card"onclick="showContent(2)">
+            <div class="image-container">
+                <img src="{% static 'images/logo.png' %}" alt="Burger Image">
+            </div>
+            <div class="content-container">
+                <h4>vegr 2</h4>
+                <p class="price">$10.99</p>
+            </div>
+        </div>
+        <div class="item-card"onclick="showContent(3)">
+            <div class="image-container">
+                <img src="{% static 'images/burger.png' %}" alt="Burger Image">
+            </div>
+            <div class="content-container">
+                <h4>veg3</h4>
+                <p class="price">$10.99</p>
+            </div>
+        </div>
+</div>
+</div>
 
 
      {% comment %} -------------------------------------------------------------------------------------hidden cards html -------------------------- {% endcomment %}
 
+     <div class="hidden-content" id="content-1">
+        <div class="large-card">
+            <div class="back-button">
+                <img src="{% static 'images/back.png' %}" alt="Back Button" onclick="closeContent(1)">
+            </div>
+            <div class="large-container">
+                <img src="{% static 'images/burger.png' %}" alt="Burger Image">
+            </div>
+            <div class="details">
+                <div class="animation-img"><img src="{% static 'images/burger.png' %}" alt="Burger Image"></div>
+                <h4>BURGER</h4>
+                <p class="amount">$10.99</p>
+            </div> 
+        </div> 
+        <div class="btn-container">
+            <div class="button-container">
+                <div id="minusButton" class="green-button" style="display: none;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
+                        <path id="minusPath" fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z"></path>
+                    </svg>
+                </div>
+                <div id="numberDisplay" style="display: none;">0</div>
+                <div id="plusButton" class="green-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                        <path id="plusPath" fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"></path>
+                    </svg>
+                </div>
+            </div>
+            <div class="product-description">
+                <div>a mild, coconut and citrus curry, with prawns, mangetout, peppers, red and spring onions. served with white rice, a sprinkle of mixed sesame seeds, red chillies, coriander and fresh lime
+                </div>
+            </div>    
+        </div>  
+    </div>
+    <div class="hidden-content" id="content-2">
+        <div class="large-card">
+            <div class="back-button">
+                <img src="{% static 'images/back.png' %}" alt="Back Button" onclick="closeContent(1)">
+            </div>
+            <div class="large-container">
+                <img src="{% static 'images/burger.png' %}" alt="Burger Image">
+            </div>
+            <div class="details">
+                <div class="animation-img"><img src="{% static 'images/burger.png' %}" alt="Burger Image"></div>
+                <h4>BURGER</h4>
+                <p class="amount">$10.99</p>
+            </div> 
+        </div> 
+        <div class="btn-container">
+            <div class="button-container">
+                <div id="minusButton" class="green-button" style="display: none;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
+                        <path id="minusPath" fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z"></path>
+                    </svg>
+                </div>
+                <div id="numberDisplay" style="display: none;">0</div>
+                <div id="plusButton" class="green-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                        <path id="plusPath" fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"></path>
+                    </svg>
+                </div>
+            </div>
+            <div class="product-description">
+                <div>a mild, coconut and citrus curry, with prawns, mangetout, peppers, red and spring onions. served with white rice, a sprinkle of mixed sesame seeds, red chillies, coriander and fresh lime
+                </div>
+            </div>    
+        </div>  
+    </div>
+    
+    
+   
+    <script>
+        const plusButton = document.getElementById('plusButton');
+        const minusButton = document.getElementById('minusButton');
+        const numberDisplay = document.getElementById('numberDisplay');
+        let number = 0;
+      
+        plusButton.addEventListener('click', () => {
+        number++;
+        updateNumberDisplay();
+        plusButton.style.transform = 'scale(3)'; // Add a scale effect when clicked
+        setTimeout(() => {
+          plusButton.style.transform = 'scale(1)'; // Reset scale after a short delay
+        }, 65); // 100 milliseconds for fast transition
+      });
+      
+      
+        minusButton.addEventListener('click', () => {
+          if (number > 0) {
+            number--;
+            updateNumberDisplay();
+          }
+        });
+      
+        function updateNumberDisplay() {
+          numberDisplay.textContent = number;
+          if (number > 0) {
+            numberDisplay.style.display = 'inline-block';
+            minusButton.style.display = 'flex';
+            plusButton.style.display = 'flex';
+          } else {
+            numberDisplay.style.display = 'none';
+            minusButton.style.display = 'none';
+            plusButton.style.display = 'flex';
+          }
+        }
+      </script>
 
-        <div class="hidden-content" id="content-1">
-            <img src="{% static 'images/burger.png' %}" alt="Burger Image"> 
-            <h3>new card 1</h3>  
-            <button onclick="closeContent(1)">Close</button>          
-        </div>
         <div class="hidden-content" id="content-2">
             <img src="{% static 'images/burger.png' %}" alt=Burger Image"> 
             <button onclick="closeContent(2)">Close</button> 
@@ -125,7 +267,6 @@
                 document.getElementById('burger').style.display = 'block';
               }
           </script>
-
 
         {% comment %} js for the slide up scroll menu  {% endcomment %}
         <script>
@@ -217,7 +358,8 @@
             });
             
         </script>    
-    
+    </div>
      </div>
+    </div>
 </body>
 </html>
