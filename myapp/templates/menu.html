@@ -9,13 +9,61 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'fonts/StratosLCWeb-Regular.ttf' %}">
 </head>
-<body>
+<body> 
+
+    <div class="panel-container">
+        <div class="panel-header">
+          <div>Order</div>
+          <img src="https://via.placeholder.com/30" alt="Profile Image">
+        </div>
+        <div class="content">
+          Content goes here
+          <button id="orderButton" class="popup-button">Order</button>
+        </div>
+      </div>
+    <div class="panel-overlay"></div>
+
+
+<script>
+      const panelOverlay = document.querySelector('.panel-overlay');
+      const panelContainer = document.querySelector('.panel-container');
+      const panelHeader = document.querySelector('.panel-header');
+      const orderButton = document.getElementById('orderButton');
+      
+      panelHeader.addEventListener('click', function(event) {
+        panelContainer.classList.toggle('opened');
+        if (panelContainer.classList.contains('opened')) {
+          panelOverlay.style.display = 'block';
+          orderButton.style.display = 'block'; // Show the order button when panel opens
+          setTimeout(() => {
+            panelOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+          }, 10); // Delay to ensure smooth transition
+        } else {
+          panelOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0)';
+          orderButton.style.display = 'none'; // Hide the order button when panel closes
+          setTimeout(() => {
+            panelOverlay.style.display = 'none';
+          }, 500); // Match transition duration
+        }
+      });
+      
+      // Close the panel when clicking outside the container
+      document.addEventListener('click', function(event) {
+        if (!event.target.closest('.panel-container')) {
+          panelContainer.classList.remove('opened');
+          panelOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0)';
+          orderButton.style.display = 'none'; // Hide the order button when panel closes
+          setTimeout(() => {
+            panelOverlay.style.display = 'none';
+          }, 500); // Match transition duration
+        }
+      });
+    </script> 
+    
+    
     {% comment %} -------------------------------------------------------------------------------------------------MAIN CONTAINER---------------- {% endcomment %}
     <div class="main-container">
     <div class="container" id="container">
-       
-
-
         {% comment %} --------------------------------------------------------------------------------------------- -HEADER----------------------- {% endcomment %}
         <div class="header" id="header">
             <img src="{% static 'images/logo.png' %}" alt="Hotel Logo">
@@ -44,8 +92,9 @@
 
 {% comment %} ------------------------------------------------------------------------------html for the grid container corresponding to scroll menu  {% endcomment %}
  <div class="grid-container" id="burger">
-    <div class="grid" >
-        <div class="item-card"onclick="showContent(1)">
+    <div class="grid">
+
+        <div class="item-card"onclick="showContent(1.1)">
             <div class="image-container">
                 <img src="{% static 'images/burger.png' %}" alt="Burger Image">
             </div>
@@ -54,47 +103,25 @@
                 <p class="price">$10.99</p>
             </div>
         </div>
-        <div class="item-card"onclick="showContent(2)">
-            <div class="image-container">
-                <img src="{% static 'images/logo.png' %}" alt="Burger Image">
-            </div>
-            <div class="content-container">
-                <h4>BURGER</h4>
-                <p class="price">$10.99</p>
-            </div>
-        </div>
-        <div class="item-card"onclick="showContent(3)">
-            <div class="image-container">
-                <img src="{% static 'images/burger.png' %}" alt="BURGER Image">
-            </div>
-            <div class="content-container">
-                <h4>burger 1</h4>
-                <p class="price">$10.99</p>
-            </div>
-        </div>
-        <div class="item-card"onclick="showContent(3)">
+
+        <div class="item-card"onclick="showContent(1.2)">
             <div class="image-container">
                 <img src="{% static 'images/burger.png' %}" alt="Burger Image">
             </div>
             <div class="content-container">
-                <h4>veg3</h4>
+                <h4>Burger 1....</h4>
                 <p class="price">$10.99</p>
             </div>
         </div>
-        <div class="item-card"onclick="showContent(3)">
-            <div class="image-container">
-                <img src="{% static 'images/burger.png' %}" alt="Burger Image">
-            </div>
-            <div class="content-container">
-                <h4>veg3</h4>
-                <p class="price">$10.99</p>
-            </div>
-        </div>
+        
+    </div>
 </div>
-</div>
+
+
 <div class="grid-container" id="veg">
     <div class="grid" >
-        <div class="item-card"onclick="showContent(1)">
+
+        <div class="item-card"onclick="showContent(2.1)">
             <div class="image-container">
                 <img src="{% static 'images/burger.png' %}" alt="Burger Image">
             </div>
@@ -103,148 +130,257 @@
                 <p class="price">$10.99</p>
             </div>
         </div>
-        <div class="item-card"onclick="showContent(2)">
-            <div class="image-container">
-                <img src="{% static 'images/logo.png' %}" alt="Burger Image">
-            </div>
-            <div class="content-container">
-                <h4>vegr 2</h4>
-                <p class="price">$10.99</p>
-            </div>
-        </div>
-        <div class="item-card"onclick="showContent(3)">
+
+        <div class="item-card"onclick="showContent(2.2)">
             <div class="image-container">
                 <img src="{% static 'images/burger.png' %}" alt="Burger Image">
             </div>
             <div class="content-container">
-                <h4>veg3</h4>
+                <h4>veg</h4>
                 <p class="price">$10.99</p>
             </div>
         </div>
-</div>
+      
+    </div>
 </div>
 
 
      {% comment %} -------------------------------------------------------------------------------------hidden cards html -------------------------- {% endcomment %}
 
-     <div class="hidden-content" id="content-1">
-        <div class="large-card">
-            <div class="back-button">
-                <img src="{% static 'images/back.png' %}" alt="Back Button" onclick="closeContent(1)">
-            </div>
-            <div class="large-container">
-                <img src="{% static 'images/burger.png' %}" alt="Burger Image">
-            </div>
-            <div class="details">
-                <div class="animation-img"><img src="{% static 'images/burger.png' %}" alt="Burger Image"></div>
-                <h4>BURGER</h4>
-                <p class="amount">$10.99</p>
-            </div> 
-        </div> 
-        <div class="btn-container">
-            <div class="button-container">
-                <div id="minusButton" class="green-button" style="display: none;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
-                        <path id="minusPath" fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z"></path>
-                    </svg>
-                </div>
-                <div id="numberDisplay" style="display: none;">0</div>
-                <div id="plusButton" class="green-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-                        <path id="plusPath" fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"></path>
-                    </svg>
-                </div>
-            </div>
-            <div class="product-description">
-                <div>a mild, coconut and citrus curry, with prawns, mangetout, peppers, red and spring onions. served with white rice, a sprinkle of mixed sesame seeds, red chillies, coriander and fresh lime
-                </div>
-            </div>    
-        </div>  
-    </div>
-    <div class="hidden-content" id="content-2">
-        <div class="large-card">
-            <div class="back-button">
-                <img src="{% static 'images/back.png' %}" alt="Back Button" onclick="closeContent(1)">
-            </div>
-            <div class="large-container">
-                <img src="{% static 'images/burger.png' %}" alt="Burger Image">
-            </div>
-            <div class="details">
-                <div class="animation-img"><img src="{% static 'images/burger.png' %}" alt="Burger Image"></div>
-                <h4>BURGER</h4>
-                <p class="amount">$10.99</p>
-            </div> 
-        </div> 
-        <div class="btn-container">
-            <div class="button-container">
-                <div id="minusButton" class="green-button" style="display: none;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
-                        <path id="minusPath" fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z"></path>
-                    </svg>
-                </div>
-                <div id="numberDisplay" style="display: none;">0</div>
-                <div id="plusButton" class="green-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-                        <path id="plusPath" fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"></path>
-                    </svg>
-                </div>
-            </div>
-            <div class="product-description">
-                <div>a mild, coconut and citrus curry, with prawns, mangetout, peppers, red and spring onions. served with white rice, a sprinkle of mixed sesame seeds, red chillies, coriander and fresh lime
-                </div>
-            </div>    
-        </div>  
-    </div>
-    
-    
-   
-    <script>
-        const plusButton = document.getElementById('plusButton');
-        const minusButton = document.getElementById('minusButton');
-        const numberDisplay = document.getElementById('numberDisplay');
-        let number = 0;
-      
-        plusButton.addEventListener('click', () => {
-        number++;
-        updateNumberDisplay();
-        plusButton.style.transform = 'scale(3)'; // Add a scale effect when clicked
-        setTimeout(() => {
-          plusButton.style.transform = 'scale(1)'; // Reset scale after a short delay
-        }, 65); // 100 milliseconds for fast transition
-      });
-      
-      
-        minusButton.addEventListener('click', () => {
-          if (number > 0) {
-            number--;
-            updateNumberDisplay();
-          }
-        });
-      
-        function updateNumberDisplay() {
-          numberDisplay.textContent = number;
-          if (number > 0) {
-            numberDisplay.style.display = 'inline-block';
-            minusButton.style.display = 'flex';
-            plusButton.style.display = 'flex';
-          } else {
-            numberDisplay.style.display = 'none';
-            minusButton.style.display = 'none';
-            plusButton.style.display = 'flex';
-          }
-        }
-      </script>
+     {% comment %} -------------------------------------------------------------------burger ctegoery crd 1.1 {% endcomment %}
 
-        <div class="hidden-content" id="content-2">
-            <img src="{% static 'images/burger.png' %}" alt=Burger Image"> 
-            <button onclick="closeContent(2)">Close</button> 
-            <h3>new card 2</h3>
+    <div class="hidden-content" id="content-1.1">
+        <div class="large-card">
+
+            <div class="back-button">
+                <img src="{% static 'images/back.png' %}" alt="Back Button" onclick="closeContent(1.1)">
+            </div>
+
+            <div class="large-container">
+                <img src="{% static 'images/burger.png' %}" alt="Burger Image">
+            </div>
+
+            <div class="details">
+                <div class="animation-img"><img src="{% static 'images/burger.png' %}" alt="Burger Image"></div>
+                <h4>berger 1.1 </h4>
+                <p class="amount">$10.99</p>
+            </div> 
+
+        </div> 
+
+        <div class="add-product-btn">
+            <div class="add-product-btn__expander">
+                <!-- Button for decrementing -->
+                <button class="btn btn--icon btn--icon--lg no-tap-highlight minus-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z"></path>
+                    </svg>
+                </button>
+                <!-- Counter display -->
+                <div class="counter" style="margin-left: 20px;"></div>
+            </div>
+            <!-- Button for incrementing -->
+            <button class="btn btn--icon add-product-btn__plus no-tap-highlight">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"></path>
+                </svg>
+            </button>
         </div>
-        <div class="hidden-content" id="content-3">
-            <img src="{% static 'images/burger.png' %}" alt="Burger Image"> 
-            <button onclick="closeContent(3)">Close</button> 
-            <h3>new card 3</h3>
+
+            <div class="product-description">
+                <div>a mild, coconut and citrus curry, with prawns, mangetout, peppers, red and spring onions. served with white rice, a sprinkle of mixed sesame seeds, red chillies, coriander and fresh lime
+                </div>
+            </div>    
+        </div>  
+    </div>
+
+
+     <div class="hidden-content" id="content-1.2">
+        <div class="large-card">
+
+            <div class="back-button">
+                <img src="{% static 'images/back.png' %}" alt="Back Button" onclick="closeContent(1.2)">
+            </div>
+
+            <div class="large-container">
+                <img src="{% static 'images/burger.png' %}" alt="Burger Image">
+            </div>
+
+            <div class="details">
+                <div class="animation-img"><img src="{% static 'images/burger.png' %}" alt="Burger Image"></div>
+                <h4>BURGER 1.2 </h4>
+                <p class="amount">$10.99</p>
+            </div> 
+
+        </div> 
+
+        <div class="add-product-btn">
+            <div class="add-product-btn__expander">
+                <!-- Button for decrementing -->
+                <button class="btn btn--icon btn--icon--lg no-tap-highlight minus-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z"></path>
+                    </svg>
+                </button>
+                <!-- Counter display -->
+                <div class="counter" style="margin-left: 20px;"></div>
+            </div>
+            <!-- Button for incrementing -->
+            <button class="btn btn--icon add-product-btn__plus no-tap-highlight">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"></path>
+                </svg>
+            </button>
         </div>
+            
+            <div class="product-description">
+                <div>a mild, coconut and citrus curry, with prawns, mangetout, peppers, red and spring onions. served with white rice, a sprinkle of mixed sesame seeds, red chillies, coriander and fresh lime
+                </div>
+            </div>    
+        </div>  
+    </div>
+{% comment %} -----------------------------------------------------------------------veg category 2.1 ------------------------ {% endcomment %}
+
+
+<div class="hidden-content" id="content-2.1">
+    <div class="large-card">
+
+        <div class="back-button">
+            <img src="{% static 'images/back.png' %}" alt="Back Button" onclick="closeContent(2.1)">
+        </div>
+
+        <div class="large-container">
+            <img src="{% static 'images/burger.png' %}" alt="Burger Image">
+        </div>
+
+        <div class="details">
+            <div class="animation-img"><img src="{% static 'images/burger.png' %}" alt="Burger Image"></div>
+            <h4>veg 2.1</h4>
+            <p class="amount">$10.99</p>
+        </div> 
+
+    </div> 
+
+    <div class="add-product-btn">
+        <div class="add-product-btn__expander">
+            <!-- Button for decrementing -->
+            <button class="btn btn--icon btn--icon--lg no-tap-highlight minus-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z"></path>
+                </svg>
+            </button>
+            <!-- Counter display -->
+            <div class="counter" style="margin-left: 20px;"></div>
+        </div>
+        <!-- Button for incrementing -->
+        <button class="btn btn--icon add-product-btn__plus no-tap-highlight">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"></path>
+            </svg>
+        </button>
+    </div>
+
+        <div class="product-description">
+            <div>a mild, coconut and citrus curry, with prawns, mangetout, peppers, red and spring onions. served with white rice, a sprinkle of mixed sesame seeds, red chillies, coriander and fresh lime
+            </div>
+        </div>    
+    </div>  
+</div>
+
+
+ <div class="hidden-content" id="content-2.2">
+    <div class="large-card">
+
+        <div class="back-button">
+            <img src="{% static 'images/back.png' %}" alt="Back Button" onclick="closeContent(2.2)">
+        </div>
+
+        <div class="large-container">
+            <img src="{% static 'images/burger.png' %}" alt="Burger Image">
+        </div>
+
+        <div class="details">
+            <div class="animation-img"><img src="{% static 'images/burger.png' %}" alt="Burger Image"></div>
+            <h4>veg 2.2</h4>
+            <p class="amount">$10.99</p>
+        </div> 
+
+    </div> 
+
+    <div class="add-product-btn">
+        <div class="add-product-btn__expander">
+            <!-- Button for decrementing -->
+            <button class="btn btn--icon btn--icon--lg no-tap-highlight minus-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z"></path>
+                </svg>
+            </button>
+            <!-- Counter display -->
+            <div class="counter" style="margin-left: 20px;"></div>
+        </div>
+        <!-- Button for incrementing -->
+        <button class="btn btn--icon add-product-btn__plus no-tap-highlight">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"></path>
+            </svg>
+        </button>
+    </div>
+
+        <div class="product-description">
+            <div>a mild, coconut and citrus curry, with prawns, mangetout, peppers, red and spring onions. served with white rice, a sprinkle of mixed sesame seeds, red chillies, coriander and fresh lime
+            </div>
+        </div>    
+    </div>  
+</div>
+<script>
+    // Get all plus buttons
+    const plusButtons = document.querySelectorAll('.add-product-btn__plus');
+    
+    plusButtons.forEach(plusButton => {
+        // Find associated elements within the same card
+        const expander = plusButton.closest('.add-product-btn').querySelector('.add-product-btn__expander');
+        const minusButton = plusButton.closest('.add-product-btn').querySelector('.minus-button');
+        const counter = plusButton.closest('.add-product-btn').querySelector('.counter');
+
+        // Initialize count for each card
+        let count = 0;
+
+        // Function to handle incrementing the count
+        function incrementCount() {
+            count++;
+            counter.textContent = count;
+            expander.classList.add('active');
+            
+            // Scale up the plus button
+            plusButton.style.transform = 'scale(1.3)';
+            setTimeout(() => {
+                plusButton.style.transform = 'scale(1)';
+            }, 100); // Reset scale after 300ms (same as transition duration)
+        }
+
+        // Function to handle decrementing the count
+        function decrementCount() {
+            if (count > 1) {
+                count--;
+                counter.textContent = count;
+            } else {
+                expander.classList.remove('active');
+                count = 0; // Reset count to 0 when expander is closed
+            }
+        }
+
+        // Event listener for the plus button
+        plusButton.addEventListener('click', () => {
+            incrementCount();
+        });
+
+        // Event listener for the minus button
+        minusButton.addEventListener('click', () => {
+            decrementCount();
+        });
+    });
+</script>
+
 
         {% comment %} -------------------------------------------------------------------------------------------------------JAVASCRIPT------------------ {% endcomment %}
         
@@ -269,6 +405,8 @@
           </script>
 
         {% comment %} js for the slide up scroll menu  {% endcomment %}
+
+
         <script>
             const header = document.getElementById('header');
             const scrollMenu = document.getElementById('scrollmenu'); // Make sure this matches your HTML ID
@@ -300,6 +438,10 @@
             });
 
         </script>
+
+
+
+
         <script>
              {% comment %} js for the slider highlighter  {% endcomment %}
             document.addEventListener('DOMContentLoaded', function() {
@@ -357,9 +499,10 @@
                 });
             });
             
-        </script>    
+        </script>  
     </div>
      </div>
+  
     </div>
 </body>
 </html>

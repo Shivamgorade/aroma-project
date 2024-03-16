@@ -4,10 +4,91 @@ body, html {
     height: 100%;
     font-family: 'StratosLCWeb-Regular', sans-serif; /* Replace 'YourFontName' with the name of your font */
     }
+
+    
+  .panel-overlay {
+    position: fixed;
+    top: 0;
+    transform: translateX(-50%);
+    left: 50%;
+    width: 100%;
+    max-width: 450px;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.481); /* Initial opacity */
+    display: none; /* Initially hidden */
+    z-index: 999; /* Ensure it's above other content */
+    transition: background-color 0.5s ease; /* Smooth transition */
+  }
+
+  .panel-container {
+    transform: translateX(-50%);
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    width: 100%;
+    max-width: 450px;
+    height: 64px;
+    background-color: #f0f0f0;
+    transition: height 0.5s ease; /* Smooth height transition */
+    overflow-y: hidden;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    z-index: 1000; /* Ensure it's above the overlay */
+  }
+
+  .content {
+    overflow-y: auto;
+    height: calc(90% - 64px); /* Adjust content height */
+    overflow-y: auto;
+    padding: 20px; /* Add some padding */
+  }
+
+  .panel-container.opened {
+    height: 82%; /* 70% of the viewport height */
+  }
+
+  .panel-header {
+    position: relative;
+    height: 64px; /* Header height */
+    background-color: black;
+    color: white;
+    padding: 0 20px; /* Add padding for text */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+  }
+
+  .panel-header img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%; /* Make the image circular */
+  }
+  .popup-button {
+    display: none;
+    position: absolute;
+    bottom: 20px; /* Adjust button position as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4CAF50; /* Green background */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .popup-button:hover {
+    background-color: #45a049; /* Darker green on hover */
+  }
+
     .main-container{
         position: fixed;
         width: 100%;
-         max-width: 452px;  /*450 standard chage it to view accurate on side in hidden content  */
+        max-width: 450px;  /*450 standard chage it to view accurate on side in hidden content  */
         left: 50%;
         transform: translateX(-50%);
         overflow-y: hidden;
@@ -15,7 +96,7 @@ body, html {
 .container {
   
       box-shadow: 0 4px 8px 3px rgba(0, 0, 0, 0.336);
-      background-color: #000000;
+      background-color: #c20f0f;
       max-width: 450px;
       width: 100%;
       margin: 0 auto;
@@ -28,7 +109,7 @@ body, html {
 .header {
     width: 100%;
     max-width: 450px;
-    background-color: #f10e0e;
+    background-color: #dfd000;
     top: 0; /* header height from webpage */
     position: fixed;
     display: flex;
@@ -45,7 +126,7 @@ body, html {
     margin-left: 5px;
 }
 
-/* --------------------------------------------------------------------Logo image */
+/* ---------------------------------------s-----------------------------Logo image */
 .header img {
     padding-left: 10px;
     max-width: 60px;
@@ -62,7 +143,7 @@ body, html {
     justify-content: space-between;
     display: block;
     margin-top: 0px;
-    background-color: #021ce2;
+    background-color: #de0000;
     z-index: 1000;
     white-space: nowrap;
     overflow-x: auto;
@@ -104,7 +185,7 @@ body, html {
 .highlighter {
     background-color: #f7cf22;
     position: absolute;
-    top: 17px;
+    top: 12px;
     left: 0;
     width: 65px; /* Set your desired width */
     height: 65px; /* Set your desired height */
@@ -135,7 +216,7 @@ body, html {
     position: relative;
     width: 100%;
     max-width: 300px;
-    background-color: #fafafa;
+    background-color: #dadada;
     border: none;
     border-radius: 10px;
     box-shadow: 0 8px 8px -6px rgba(0, 0, 0, 0.4);
@@ -156,7 +237,7 @@ body, html {
     margin: 0 auto; /* Center the image horizontally */
     
     width: 100%;
-    max-width: 130px; /* Ensure the image doesn't overflow the container */
+    max-width: 120px; /* Ensure the image doesn't overflow the container */
     height: auto;
     display: block; /* Remove any default inline spacing */
 }
@@ -307,67 +388,77 @@ body, html {
     margin: 0 auto;
     height: 100%;
     overflow-y: auto;
-    
+
 }
 
-.btn-container {
-    
-    display: flex;
-    align-items: baseline;
-    justify-content: right;
-    padding-right: 31px;
-    
-   
-  }
-  .button-container {
+.add-product-btn {
     z-index: 9999;
     margin-top: -16px;
+    position: absolute;
+    right: 30px;
+    will-change: transform;
     display: flex;
     align-items: center;
-    background-color: #25ae44; /* Green background color */
-    border-radius: 30px; /* Adjust the border-radius to match container background */
-    
-  }
-  .green-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 50px;
-    height: 50px;
-    border-radius: 60%; /* Make button circular */
-    background-color: #24Ae43; /* Light green button color */
-    color: #fff;
-    margin: 0 px;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5); /* Add shadow to buttons */
-    border: 1px;
-    
-  }
- 
-  #plusButton {
-width: 55px; /* Increase the width of the plus button */
-height: 55px; /* Increase the height of the plus button */
-transition: transform 0.8s ease; /* Add transition effect for transform property */
 }
-#plusButton svg {
-    width: 40px; /* Increase the width of the plus button */
-    height: 40px; /* Increase the height of the plus button */
-    transition: transform 0.8s ease; /* Add transition effect for transform property */
-    }
-    #minusButton svg {
-        width: 28px; /* Increase the width of the plus button */
-        height: 28px; /* Increase the height of the plus button */
-        transition: transform 0.8s ease; /* Add transition effect for transform property */
-        }
 
-  #numberDisplay {
-    padding: 15px; /* Adjust padding */
-    border-radius: 10px; /* Adjust border-radius */
-  
-    display: none;
-    color: white; /* White text color */
-    font-size: 18px; /* Increased font size */
+.add-product-btn__plus {
+    height: 56px;
+    width: 56px;
+   padding: 8px;
+    border-radius: 50%;
+    color: white;
+    background:#24ae43;
+    box-shadow: 0 4px 4px #00000072;
+    position: relative;
+    transition: transform 0.3s ease;
     
-  }
+}
+
+
+
+.add-product-btn__plus>svg {
+    width: 40px;
+    height: 40px;
+}
+
+.add-product-btn__expander {
+    border-radius: 50%;
+    background-color: #24ae43;
+    color: white;
+    height: 53px;
+    padding: 0 40px 0 0;
+    border-top-left-radius: 9999px;
+    border-bottom-left-radius: 9999px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    left: 25px;
+    opacity: 0;
+    transition: opacity 0.7s, transform 0.5s ease-in-out;
+    transform: translateX(10%);
+}
+
+.add-product-btn__expander.active {
+    opacity: 1;
+    transform: translateX(0%);
+}
+
+.add-product-btn__expander button {
+    padding: 10px;
+    width: 48px;
+    height: 48px;
+    border-radius: 60px;
+    background-color: #24ae43;
+    box-shadow: 0 1px 3px #00000069;
+    color: white;
+}
+.btn btn--icon add-product-btn__plus no-tap-highlight{
+    outline: none;
+}
+.btn{
+border: none;
+
+}
   .product-description {
     position: absolute;
     padding: 50px 20px 0;
