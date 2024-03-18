@@ -376,19 +376,25 @@ body, html {
 
 .hidden-content {
     display: none;
-    position: fixed; /* Fixed positioning ensures it's relative to the viewport */
-    top: 50%; /* Center vertically */
-    left: 50%; /* Center horizontally */
-    transform: translate(-50%, -50%); /* Center the content */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     z-index: 9999;
     background-color: #fafafa;
     text-align: center;
     width: 100%;
-     max-width: 460px;  /*450 is standard but for header aand scroll outward change main container size to fit accurate */
+    max-width: 460px;
     margin: 0 auto;
     height: 100%;
     overflow-y: auto;
+    opacity: 0; /* Start with opacity 0 for fade-in effect */
+    transition: opacity 0.2s ease-in-out; /* Add transition for opacity property */
+}
 
+.visible {
+    display: block;
+    opacity: 1; /* Set opacity to 1 for visible content */
 }
 
 .add-product-btn {

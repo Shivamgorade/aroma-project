@@ -387,22 +387,58 @@
         {% comment %} --------------------------------------------------------------js for the scrollmenu ------------------------- {% endcomment %}
         
         <script>
-            function toggleItems(cardId) {
-              const itemCards = document.querySelectorAll('.grid-container');
-              itemCards.forEach(card => {
-                if (card.id === cardId) {
-                  card.style.display = 'block';
-                } else {
-                  card.style.display = 'none';
-                }
-              });
+            // Function to show the hidden content with a fade-in effect
+            function showContent(contentId) {
+                // Hide all hidden contents and set opacity to 0 initially
+                document.querySelectorAll('.hidden-content').forEach(content => {
+                    content.classList.remove('visible'); // Remove 'visible' class
+                    content.style.opacity = 0; // Ensure opacity is set to 0 initially for fade-in effect
+                });
+        
+                // Show the selected hidden content with a fade-in effect
+                const selectedContent = document.getElementById(`content-${contentId}`);
+                selectedContent.classList.add('visible'); // Add 'visible' class to show the content
+        
+                // Gradually increase opacity for fade-in effect
+                let opacity = 0;
+                const fadeInInterval = setInterval(() => {
+                    opacity += 0.1; // Increase opacity gradually
+                    selectedContent.style.opacity = opacity; // Apply opacity to the selected content
+                    if (opacity >= 1) {
+                        clearInterval(fadeInInterval); // Stop the interval when opacity reaches 1
+                    }
+                }, 1); // Adjust the interval for smoother or faster fade-in effect
             }
         
+            // Function to close the currently visible content with a fade-out effect
+            function closeContent(contentId) {
+                // Hide the selected hidden content with a fade-out effect
+                const selectedContent = document.getElementById(`content-${contentId}`);
+                selectedContent.style.opacity = 0; // Set opacity to 0 for fade-out effect
+                setTimeout(() => {
+                    selectedContent.classList.remove('visible'); // Remove 'visible' class after fade-out
+                }, 500); // Wait for the fade-out transition to complete before removing 'visible' class
+            }
+        
+            // Function to toggle visibility of grid containers based on the clicked card
+            function toggleItems(cardId) {
+                const itemCards = document.querySelectorAll('.grid-container');
+                itemCards.forEach(card => {
+                    if (card.id === cardId) {
+                        card.classList.add('visible'); // Add 'visible' class to show the container
+                    } else {
+                        card.classList.remove('visible'); // Remove 'visible' class to hide other containers
+                    }
+                });
+            }
+        
+            // Function to set the default visible content when the page loads
             function setDefault() {
-                // Display default card 1
-                document.getElementById('burger').style.display = 'block';
-              }
-          </script>
+                // Display default content (e.g., card 1)
+                const defaultContent = document.getElementById('burger');
+                defaultContent.classList.add('visible'); // Add 'visible' class to show the default content
+            }
+        </script>
 
         {% comment %} js for the slide up scroll menu  {% endcomment %}
 
