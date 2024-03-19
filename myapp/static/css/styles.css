@@ -14,7 +14,7 @@ body, html {
     width: 100%;
     max-width: 450px;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.481); /* Initial opacity */
+    background-color: rgba(0, 0, 0, 0.614); /* Initial opacity */
     display: none; /* Initially hidden */
     z-index: 999; /* Ensure it's above other content */
     transition: background-color 0.5s ease; /* Smooth transition */
@@ -380,7 +380,7 @@ body, html {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 9999;
+    z-index: 999;
     background-color: #fafafa;
     text-align: center;
     width: 100%;
@@ -419,9 +419,14 @@ body, html {
     transition: transform 0.3s ease;
     
 }
-
-
-
+.counter-2 {
+    color: white;
+    display: none;
+    position: absolute;
+    background-color: #24ae43;
+    padding: 5px 10px;
+    border-bottom-right-radius: 5px;
+  }
 .add-product-btn__plus>svg {
     width: 40px;
     height: 40px;
