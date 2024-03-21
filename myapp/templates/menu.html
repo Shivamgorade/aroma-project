@@ -195,7 +195,7 @@
 
     <div class="hidden-content" id="content-1.1">
         <div class="large-card">
-
+           
             <div class="back-button">
                 <img src="{% static 'images/back.png' %}" alt="Back Button" onclick="closeContent(1.1)">
             </div>
@@ -209,9 +209,9 @@
                 <h4>berger 1.1 </h4>
                 <p class="amount">$10.99</p>
             </div> 
-
+           
         </div> 
-
+        <div class="animation-img-clone"><img src="{% static 'images/burger.png' %}" alt="Burger Image"></div>
         <div class="button-container">
             <div class="add-product-btn">
                 <div class="add-product-btn__expander">
@@ -237,6 +237,7 @@
                 </div>
             </div>    
         </div>  
+      
     </div>
     <div class="hidden-content" id="content-1.2">
         <div class="large-card">
@@ -256,7 +257,7 @@
             </div> 
 
         </div> 
-
+        <div class="animation-img-clone"><img src="{% static 'images/burger.png' %}" alt="Burger Image"></div>
         <div class="button-container">
             <div class="add-product-btn">
                 <div class="add-product-btn__expander">
@@ -301,7 +302,7 @@
             </div> 
 
         </div> 
-
+        <div class="animation-img-clone"><img src="{% static 'images/burger.png' %}" alt="Burger Image"></div>
          <div class="button-container">
             <div class="add-product-btn">
                 <div class="add-product-btn__expander">
@@ -346,7 +347,7 @@
             </div> 
 
         </div> 
-
+        <div class="animation-img-clone"><img src="{% static 'images/burger.png' %}" alt="Burger Image"></div>
          <div class="button-container">
             <div class="add-product-btn">
                 <div class="add-product-btn__expander">
@@ -437,7 +438,7 @@
             </div> 
 
         </div> 
-
+        <div class="animation-img-clone"><img src="{% static 'images/burger.png' %}" alt="Burger Image"></div>
         <div class="button-container">
             <div class="add-product-btn">
                 <div class="add-product-btn__expander">
@@ -482,7 +483,7 @@
             </div> 
 
         </div> 
-
+        <div class="animation-img-clone"><img src="{% static 'images/burger.png' %}" alt="Burger Image"></div>
          <div class="button-container">
             <div class="add-product-btn">
                 <div class="add-product-btn__expander">
@@ -527,7 +528,7 @@
             </div> 
 
         </div> 
-
+        <div class="animation-img-clone"><img src="{% static 'images/burger.png' %}" alt="Burger Image"></div>
          <div class="button-container">
             <div class="add-product-btn">
                 <div class="add-product-btn__expander">
@@ -562,61 +563,78 @@
 
 
 
-
 <script>
- const plusButtons = document.querySelectorAll('.add-product-btn__plus');
+    const plusButtons = document.querySelectorAll('.add-product-btn__plus');
 
-plusButtons.forEach((plusButton, index) => {
-    // Find associated elements within the same card
-    const expander = plusButton.closest('.add-product-btn').querySelector('.add-product-btn__expander');
-    const minusButton = plusButton.closest('.add-product-btn').querySelector('.minus-button');
-    const counter = plusButton.closest('.add-product-btn').querySelector('.counter');
-    const counterView = document.querySelectorAll('.counter-2')[index]; // Update according to index
-
-    // Initialize count for each card
-    let count = 0;
-
-    // Function to handle incrementing the count
-    function incrementCount() {
-        count++;
-        counter.textContent = count;
-        counterView.textContent = count; // Update counter view
-        expander.classList.add('active');
-        counterView.style.display = 'block'; // Show counter view
-        
-        // Scale up the plus button
-        plusButton.style.transform = 'scale(1.3)';
-        setTimeout(() => {
-            plusButton.style.transform = 'scale(1)';
-        }, 100); // Reset scale after 300ms (same as transition duration)
-    }
-
-    // Function to handle decrementing the count
-    function decrementCount() {
-        if (count > 1) {
-            count--;
+    plusButtons.forEach((plusButton, index) => {
+        // Find associated elements within the same card
+        const expander = plusButton.closest('.add-product-btn').querySelector('.add-product-btn__expander');
+        const minusButton = plusButton.closest('.add-product-btn').querySelector('.minus-button');
+        const counter = plusButton.closest('.add-product-btn').querySelector('.counter');
+        const counterView = document.querySelectorAll('.counter-2')[index]; // Update according to index
+        const animationImg = plusButton.closest('.hidden-content').querySelector('.animation-img img');
+        const cloneImg = plusButton.closest('.hidden-content').querySelector('.animation-img-clone img');
+    
+        // Initialize count for each card
+        let count = 0;
+    
+        // Function to handle incrementing the count
+        function incrementCount() {
+            count++;
             counter.textContent = count;
             counterView.textContent = count; // Update counter view
-        } else {
-            expander.classList.remove('active');
-            count = 0; // Reset count to 0 when expander is closed
-            counterView.textContent = ''; // Clear counter view
-            counterView.style.display = 'none'; // Hide counter view
+            expander.classList.add('active');
+            counterView.style.display = 'block'; // Show counter view
+            
+            // Scale up the plus button
+            plusButton.style.transform = 'scale(1.3)';
+            setTimeout(() => {
+                plusButton.style.transform = 'scale(1)';
+            }, 100); // Reset scale after 300ms (same as transition duration)
+    
+            // Trigger animation for clone image
+            playAnimation();
         }
-    }
-
-    // Event listener for the plus button
-    plusButton.addEventListener('click', () => {
-        incrementCount();
+    
+        // Function to play the animation
+        function playAnimation() {
+            cloneImg.classList.remove('animate'); // Reset animation
+            void cloneImg.offsetWidth; // Trigger reflow to restart animation
+            cloneImg.classList.add('animate'); // Apply animation
+        }
+    
+        // Function to handle decrementing the count
+        function decrementCount() {
+            if (count > 1) {
+                count--;
+                counter.textContent = count;
+                counterView.textContent = count; // Update counter view
+            } else {
+                expander.classList.remove('active');
+                count = 0; // Reset count to 0 when expander is closed
+                counterView.textContent = ''; // Clear counter view
+                counterView.style.display = 'none'; // Hide counter view
+            }
+        }
+    
+        // Event listener for the plus button
+        plusButton.addEventListener('click', () => {
+            incrementCount();
+        });
+    
+        // Event listener for the minus button
+        minusButton.addEventListener('click', () => {
+            decrementCount();
+        });
+    
+        // Event listener for the back button to reset animation state when card is closed
+        const backButton = plusButton.closest('.hidden-content').querySelector('.back-button img');
+        backButton.addEventListener('click', () => {
+            cloneImg.classList.remove('animate'); // Reset animation
+        });
     });
-
-    // Event listener for the minus button
-    minusButton.addEventListener('click', () => {
-        decrementCount();
-    });
-});
-  
-  </script>
+    
+</script>
 
 <script>
     // Function to show the hidden content with a fade-in effect
