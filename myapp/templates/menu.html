@@ -13,17 +13,74 @@
 
     <div class="panel-container">
         <div class="panel-header">
-          <div>Order</div>
-          <img src="https://via.placeholder.com/30" alt="Profile Image">
+          <div class="panel-header-text">Await your order</div>
+          <div class="click-on-img"> <img src="{% static 'images/swipe-up.png' %}" alt="Burger Image"> </div>
+          <div class="header-price" id="order-details"></div>
+          <img src="{% static 'images/table.png' %}" alt="Hotel Logo">
         </div>
         <div class="content">
-          Content goes here
-          <button id="orderButton" class="popup-button">Order</button>
+            <div class="order-info">
+                <div class="dine-in">Dine In</div>
+                <div class="order-price"> Price</div>
+                <hr class="dotted-line">
+                <div class="order-details-container" id="order-details-container">
+                    
+                </div>
+                <hr class="second-line">
+                <div class="total-amount" id="order-details">
+                    Total: <span id="total-price">Rs 0.00</span> <!-- Price will be inserted dynamically here -->
+                </div>
+                <hr class="third-line">
+                <span style="color: red;">Fill all required fields</span>
+                <div class=form-container>
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" placeholder="Enter your name">
+                      </div>
+                      <div class="form-group">
+                        <form class="my-form">
+                            <div class="form-group">
+                              <label for="name">Name:</label>
+                              <input type="text" id="name" name="name" placeholder="Enter your name">
+                            </div>
+                            <div class="form-group">
+                              <label for="table">Table No:</label>
+                              <select id="table" name="table">
+                                <option value="" disabled selected>Select table</option>
+                                <option value="1">Table 1</option>
+                                <option value="2">Table 2</option>
+                                <option value="3">Table 3</option>
+                                <!-- Add more options up to 50 -->
+                              </select>
+                            </div>
+                            <div class="form-group">
+                              <label for="note">Note:</label>
+                              <textarea id="note" name="note" placeholder="Add note"></textarea>
+                            </div>
+                            <div class="form-group">
+                              <label for="timestamp">Timestamp:</label>
+                              <input type="text" id="timestamp" name="timestamp" value="" readonly>
+                            </div>
+                          
+                          </form>
+                      </div>
+                </div>
+            </div>
         </div>
       </div>
+      <button id="orderButton" class="popup-button">Order</button>
     <div class="panel-overlay"></div>
 
+    {% comment %} time stamp js---------------------------------------------------------- {% endcomment %}
 
+    
+    <script>
+        // Get current timestamp
+        document.getElementById('timestamp').value = new Date().toLocaleString();
+        </script>
+
+
+{% comment %} ---------------------------------------------------------------------------------------------- {% endcomment %}
 <script>
       const panelOverlay = document.querySelector('.panel-overlay');
       const panelContainer = document.querySelector('.panel-container');
@@ -298,7 +355,7 @@
             <div class="details">
                 <div class="animation-img"><img src="{% static 'images/burger.png' %}" alt="Burger Image"></div>
                 <h4>burger 1.3 </h4>
-                <p class="amount">$10.99</p>
+                <p class="amount">$1000</p>
             </div> 
 
         </div> 
@@ -388,12 +445,12 @@
 
             <div class="details">
                 <div class="animation-img"><img src="{% static 'images/burger.png' %}" alt="Burger Image"></div>
-                <h4>veg 1.1 </h4>
+                <h4>veg 2.1 </h4>
                 <p class="amount">$10.99</p>
             </div> 
 
         </div> 
-
+        <div class="animation-img-clone"><img src="{% static 'images/burger.png' %}" alt="Burger Image"></div>
         <div class="button-container">
             <div class="add-product-btn">
                 <div class="add-product-btn__expander">
@@ -524,11 +581,11 @@
             <div class="details">
                 <div class="animation-img"><img src="{% static 'images/burger.png' %}" alt="Burger Image"></div>
                 <h4>veg 2.4</h4>
-                <p class="amount">$10.99</p>
+                <p class="amount">$2000.99</p>
             </div> 
 
         </div> 
-        <div class="animation-img-clone"><img src="{% static 'images/burger.png' %}" alt="Burger Image"></div>
+ <div class="animation-img-clone"><img src="{% static 'images/burger.png' %}" alt="Burger Image"></div>
          <div class="button-container">
             <div class="add-product-btn">
                 <div class="add-product-btn__expander">
@@ -562,79 +619,149 @@
 {% comment %} -----------------------------------------------------------------------veg category 2.1 ------------------------ {% endcomment %}
 
 
-
 <script>
-    const plusButtons = document.querySelectorAll('.add-product-btn__plus');
-
-    plusButtons.forEach((plusButton, index) => {
-        // Find associated elements within the same card
-        const expander = plusButton.closest('.add-product-btn').querySelector('.add-product-btn__expander');
-        const minusButton = plusButton.closest('.add-product-btn').querySelector('.minus-button');
-        const counter = plusButton.closest('.add-product-btn').querySelector('.counter');
-        const counterView = document.querySelectorAll('.counter-2')[index]; // Update according to index
-        const animationImg = plusButton.closest('.hidden-content').querySelector('.animation-img img');
-        const cloneImg = plusButton.closest('.hidden-content').querySelector('.animation-img-clone img');
+    document.addEventListener('DOMContentLoaded', function () {
+        const plusButtons = document.querySelectorAll('.add-product-btn__plus');
+        const totalPriceElement = document.getElementById('order-details');
+        const totalAmountContainer = document.querySelector('.total-amount');
     
-        // Initialize count for each card
-        let count = 0;
+        let totalPrice = 0;
+        const orderDetailsMap = new Map(); // Map to store order details for each card
     
-        // Function to handle incrementing the count
-        function incrementCount() {
-            count++;
-            counter.textContent = count;
-            counterView.textContent = count; // Update counter view
-            expander.classList.add('active');
-            counterView.style.display = 'block'; // Show counter view
-            
-            // Scale up the plus button
-            plusButton.style.transform = 'scale(1.3)';
-            setTimeout(() => {
-                plusButton.style.transform = 'scale(1)';
-            }, 100); // Reset scale after 300ms (same as transition duration)
+        plusButtons.forEach((plusButton, index) => {
+            // Find associated elements within the same card
+            const expander = plusButton.closest('.add-product-btn').querySelector('.add-product-btn__expander');
+            const minusButton = plusButton.closest('.add-product-btn').querySelector('.minus-button');
+            const counter = plusButton.closest('.add-product-btn').querySelector('.counter');
+            const counterView = document.querySelectorAll('.counter-2')[index]; // Update according to index
+            const animationImg = plusButton.closest('.hidden-content').querySelector('.animation-img img');
+            const cloneImg = plusButton.closest('.hidden-content').querySelector('.animation-img-clone img');
     
-            // Trigger animation for clone image
-            playAnimation();
-        }
+            // Extract price from the card
+            const amountElement = plusButton.closest('.hidden-content').querySelector('.amount');
+            const price = parseFloat(amountElement.textContent.replace('$', ''));
     
-        // Function to play the animation
-        function playAnimation() {
-            cloneImg.classList.remove('animate'); // Reset animation
-            void cloneImg.offsetWidth; // Trigger reflow to restart animation
-            cloneImg.classList.add('animate'); // Apply animation
-        }
+            // Initialize count for each card
+            let count = 0;
     
-        // Function to handle decrementing the count
-        function decrementCount() {
-            if (count > 1) {
-                count--;
+            // Function to handle incrementing the count
+            function incrementCount() {
+                count++;
                 counter.textContent = count;
                 counterView.textContent = count; // Update counter view
-            } else {
-                expander.classList.remove('active');
-                count = 0; // Reset count to 0 when expander is closed
-                counterView.textContent = ''; // Clear counter view
-                counterView.style.display = 'none'; // Hide counter view
+                expander.classList.add('active');
+                counterView.style.display = 'block'; // Show counter view
+    
+                // Scale up the plus button
+                plusButton.style.transform = 'scale(1.3)';
+                setTimeout(() => {
+                    plusButton.style.transform = 'scale(1)';
+                }, 100); // Reset scale after 100ms (same as transition duration)
+    
+                // Trigger animation for clone image
+                playAnimation();
+    
+                // Update total price
+                totalPrice += price;
+                updateTotalPrice();
+    
+                // Update order details
+                updateOrderDetails(plusButton, count, price);
             }
-        }
     
-        // Event listener for the plus button
-        plusButton.addEventListener('click', () => {
-            incrementCount();
-        });
+            // Function to update total price in the header
+            function updateTotalPrice() {
+                totalPriceElement.textContent = `Total:Rs ${totalPrice.toFixed(2)}`; // Assuming totalPriceElement is defined
+                totalAmountContainer.innerHTML = `Total: <span id="total-price">Rs ${totalPrice.toFixed(2)}/-</span>`;
+            }
     
-        // Event listener for the minus button
-        minusButton.addEventListener('click', () => {
-            decrementCount();
-        });
+            // Function to play the animation
+            function playAnimation() {
+                cloneImg.classList.remove('animate'); // Reset animation
+                void cloneImg.offsetWidth; // Trigger reflow to restart animation
+                cloneImg.classList.add('animate'); // Apply animation
+            }
     
-        // Event listener for the back button to reset animation state when card is closed
-        const backButton = plusButton.closest('.hidden-content').querySelector('.back-button img');
-        backButton.addEventListener('click', () => {
-            cloneImg.classList.remove('animate'); // Reset animation
+            // Function to update order details
+            function updateOrderDetails(button, count, price) {
+                const cardTitle = button.closest('.hidden-content').querySelector('h4').textContent.trim();
+                const orderDetails = `${count} x ${cardTitle}: Rs ${(count * price).toFixed(2)}`;
+
+                if (count === 0) {
+                    // If count is 0, remove order detail from map
+                    orderDetailsMap.delete(button);
+                } else {
+                    // Update or add order detail to map
+                    orderDetailsMap.set(button, orderDetails);
+                }
+    
+                // Update order details container
+                updateOrderDetailsContainer();
+            }
+    
+            // Function to update order details container
+            function updateOrderDetailsContainer() {
+                const orderDetailsContainer = document.getElementById('order-details-container');
+                orderDetailsContainer.innerHTML = ''; // Clear existing order details
+    
+                // Iterate over order details map and append each order detail to container
+                orderDetailsMap.forEach(orderDetail => {
+                    const orderDetailDiv = document.createElement('div');
+                    orderDetailDiv.textContent = orderDetail;
+                    orderDetailsContainer.appendChild(orderDetailDiv);
+                });
+            }
+    
+            // Function to handle decrementing the count
+            function decrementCount() {
+                if (count > 0) {
+                    count--;
+                    counter.textContent = count;
+                    counterView.textContent = count; // Update counter view
+    
+                    // Update total price only if count is greater than 0
+                    if (totalPrice > 0) {
+                        totalPrice -= price;
+                        updateTotalPrice();
+                    }
+                }
+    
+                // Hide expander and counter view when count becomes 0
+                if (count === 0) {
+                    expander.classList.remove('active');
+                    counterView.textContent = ''; // Clear counter view
+                    counterView.style.display = 'none'; // Hide counter view
+                }
+    
+                // Update order details
+                updateOrderDetails(plusButton, count, price);
+            }
+    
+            // Event listener for the plus button
+            plusButton.addEventListener('click', () => {
+                incrementCount();
+            });
+    
+            // Event listener for the minus button
+            minusButton.addEventListener('click', () => {
+                decrementCount();
+            });
+    
+            // Event listener for the back button to reset animation state when card is closed
+            const backButton = plusButton.closest('.hidden-content').querySelector('.back-button img');
+            backButton.addEventListener('click', () => {
+                cloneImg.classList.remove('animate'); // Reset animation
+            });
         });
     });
+    </script>
     
-</script>
+
+
+
+{% comment %} ------------------------------------------------------------------------------------------------------- {% endcomment %}
+
+
 
 <script>
     // Function to show the hidden content with a fade-in effect
