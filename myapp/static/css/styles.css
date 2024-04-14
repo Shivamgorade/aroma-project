@@ -21,6 +21,7 @@ body, html {
       }
   
       .panel-container {
+        animation: panel-animation 0.6s linear;
         margin: 0 auto;
         transform: translateX(-50%); /* Start from the center */
         left: 50%;
@@ -40,23 +41,23 @@ body, html {
 
 @keyframes panel-animation {
     0% {
-      transform: translateY(0) ;
+      transform: translateX(-50%) translateY(0) ;
     }
    
     50% {
-      transform: translateY(-70px); /* Adjust the curve degree and height */
+      transform: translateX(-50%) translateY(-70px); /* Adjust the curve degree and height */
    
     }
    
     100% {
-      transform: translateY(0px); 
+      transform: translateX(-50%) translateY(0px); 
   
     }
   }
     
     .content {
         background-color: #f0e3cb;
-        animation: panel-animation 1s linear;
+       
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -98,16 +99,18 @@ body, html {
         opacity: 0.2;
         border-top: 3px dashed black; /* Adjust color and thickness as needed */
         width: 100%; /* Adjust width as needed */
+         max-width: 440px;
         /* Adjust margin as needed */
     }
     .second-line{
        margin-top: 50px;
         opacity: 0.2;
         border-top: 3px dashed black; /* Adjust color and thickness as needed */
-        width: 100%; /* Adjust width as needed */
+        width: 100%;
+        max-width: 440px; /* Adjust width as needed */
     }
 .third-line{
-   
+    max-width: 440px; /* Adjust width as needed */
     opacity: 0.2;
     border-top: 3px dashed black; /* Adjust color and thickness as needed */
     width: 100%; /* Adjust width as needed */
@@ -122,13 +125,23 @@ body, html {
     align-items: center; /* Center-align items vertically */
 }
 
-#order-details-container {
-    line-height: 35px;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 16px;
-    color: #141414; /* Choose your preferred color */
-    /* Add any other styles you want */
+.order-details {
+    
+    line-height: 30px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
 }
+
+.order-details .count-title {
+    flex: 1;
+}
+
+.order-details .price {
+    flex: 1;
+    text-align: right;
+}
+
 .header-price{
     font-size: 18px;
 }
@@ -139,21 +152,26 @@ body, html {
         font-size: 18px;
     }
     .panel-header {
-        animation: panel-animation 1s linear;
+        
+        z-index: 3;
         font-size: 21px;
-        position: relative;
-        height: 64px; /* Header height */
+        position: sticky; /* Change position to sticky */
+        top: 0; /* Stick to the top */
+        height: 64px;
         background-color: black;
         color: white;
-        padding: 0 20px; /* Add padding for text */
+        padding: 0 20px;
         display: flex;
         justify-content: space-between;
         align-items: center;
         border-top-left-radius: 20px;
         border-top-right-radius: 20px;
     }
-    .click-on-img {
-        z-index: 2;
+    
+    .click-on-img img{
+        width: 100%;
+        max-width: 60px;
+        height: auto;
         margin-top: -30px;
        
         
@@ -198,6 +216,75 @@ body, html {
     }
   }
       
+
+
+
+.form-container {
+  max-width: 400px;
+  margin: 10px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group:last-child {
+  margin-bottom: 0; /* Remove bottom margin for the last form group */
+}
+
+input[type="text"],
+select,
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-sizing: border-box; /* Ensure padding and border are included in width */
+}
+#note{
+    background-color: rgb(255, 255, 194);
+}
+select {
+  height: 40px; /* Set height for select input */
+}
+
+textarea {
+  height: 100px; /* Set height for textarea */
+}
+
+input[readonly] {
+  background-color: #f0f0f0; /* Change background color for readonly inputs */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     .main-container{
         position: fixed;
         width: 100%;

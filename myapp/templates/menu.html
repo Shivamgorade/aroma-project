@@ -13,71 +13,83 @@
 
     <div class="panel-container">
         <div class="panel-header">
-          <div class="panel-header-text">Await your order</div>
-          <div class="click-on-img"> <img src="{% static 'images/swipe-up.png' %}" alt="Burger Image"> </div>
-          <div class="header-price" id="order-details"></div>
-          <img src="{% static 'images/table.png' %}" alt="Hotel Logo">
+            <div class="panel-header-text">Await your order</div>
+            <div class="click-on-img">
+                <img src="{% static 'images/swipe-up.png' %}" alt="Burger Image">
+            </div>
+            <div class="header-price" id="order-details"></div>
+            <img src="{% static 'images/table.png' %}" alt="Hotel Logo">
         </div>
+    
         <div class="content">
             <div class="order-info">
                 <div class="dine-in">Dine In</div>
-                <div class="order-price"> Price</div>
+                <div class="order-price">Price</div>
                 <hr class="dotted-line">
+    
                 <div class="order-details-container" id="order-details-container">
-                    
+                    <!-- order details be inserted dynamically here -->
                 </div>
+    
                 <hr class="second-line">
+                
                 <div class="total-amount" id="order-details">
                     Total: <span id="total-price">Rs 0.00</span> <!-- Price will be inserted dynamically here -->
                 </div>
+    
                 <hr class="third-line">
                 <span style="color: red;">Fill all required fields</span>
-                <div class=form-container>
-                    <div class="form-group">
-                        <label for="name">Name:</label>
-                        <input type="text" id="name" name="name" placeholder="Enter your name">
-                      </div>
-                      <div class="form-group">
-                        <form class="my-form">
-                            <div class="form-group">
-                              <label for="name">Name:</label>
-                              <input type="text" id="name" name="name" placeholder="Enter your name">
-                            </div>
-                            <div class="form-group">
-                              <label for="table">Table No:</label>
-                              <select id="table" name="table">
+    
+                <div class="form-container">
+                 <!-- menu.html -->
+
+                <form class="my-form" method="post" action="/order/">
+                    {% csrf_token %}
+                    
+                    <div class="form-section">
+                        <div class="form-group">
+                            <label for="name">Name:</label>
+                            <input type="text" id="name" name="name" placeholder="Enter your name">
+                        </div>
+                        <div class="form-group">
+                            <label for="table">Table No:</label>
+                            <select id="table" name="table_number">
                                 <option value="" disabled selected>Select table</option>
                                 <option value="1">Table 1</option>
                                 <option value="2">Table 2</option>
                                 <option value="3">Table 3</option>
                                 <!-- Add more options up to 50 -->
-                              </select>
-                            </div>
-                            <div class="form-group">
-                              <label for="note">Note:</label>
-                              <textarea id="note" name="note" placeholder="Add note"></textarea>
-                            </div>
-                            <div class="form-group">
-                              <label for="timestamp">Timestamp:</label>
-                              <input type="text" id="timestamp" name="timestamp" value="" readonly>
-                            </div>
-                          
-                          </form>
-                      </div>
-                </div>
-            </div>
-        </div>
-      </div>
-      <button id="orderButton" class="popup-button">Order</button>
-    <div class="panel-overlay"></div>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="note">Note:</label>
+                        <textarea id="note" name="note" placeholder="Add note"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="timestamp">Timestamp:</label>
+                        <input type="text" id="timestamp" name="timestamp" value="" readonly>
+                    </div>
+                    <button type="submit" id="orderButton" class="popup-button">Order</button>
+                </form>
 
+                </div> <!-- Closing div for form-container -->
+            </div> <!-- Closing div for order-info -->
+        </div> <!-- Closing div for content -->
+    </div> <!-- Closing div for panel-container -->
+    <div class="panel-overlay"></div>
+    
+
+    {% comment %}  {% endcomment %}
+    
     {% comment %} time stamp js---------------------------------------------------------- {% endcomment %}
 
     
-    <script>
-        // Get current timestamp
-        document.getElementById('timestamp').value = new Date().toLocaleString();
-        </script>
+   <script>
+    // Get current timestamp and format it in 12-hour format
+    var timestamp = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true });
+    document.getElementById('timestamp').value = timestamp;
+</script>
 
 
 {% comment %} ---------------------------------------------------------------------------------------------- {% endcomment %}
@@ -671,8 +683,8 @@
     
             // Function to update total price in the header
             function updateTotalPrice() {
-                totalPriceElement.textContent = `Total:Rs ${totalPrice.toFixed(2)}`; // Assuming totalPriceElement is defined
-                totalAmountContainer.innerHTML = `Total: <span id="total-price">Rs ${totalPrice.toFixed(2)}/-</span>`;
+                totalPriceElement.textContent = `Total:₹ ${totalPrice.toFixed(2)}/-`; // Assuming totalPriceElement is defined
+                totalAmountContainer.innerHTML = `Total: <span id="total-price">₹ ${totalPrice.toFixed(2)}/-</span>`;
             }
     
             // Function to play the animation
@@ -707,7 +719,23 @@
                 // Iterate over order details map and append each order detail to container
                 orderDetailsMap.forEach(orderDetail => {
                     const orderDetailDiv = document.createElement('div');
-                    orderDetailDiv.textContent = orderDetail;
+                    orderDetailDiv.classList.add('order-details');
+
+                    const parts = orderDetail.split(': Rs');
+                    const countTitle = parts[0];
+                    const price = parseFloat(parts[1]);
+
+                    const countTitleDiv = document.createElement('div');
+                    countTitleDiv.classList.add('count-title');
+                    countTitleDiv.textContent = countTitle;
+
+                    const priceDiv = document.createElement('div');
+                    priceDiv.classList.add('price');
+                    priceDiv.textContent = `Rs ${price.toFixed(2)}`;
+
+                    orderDetailDiv.appendChild(countTitleDiv);
+                    orderDetailDiv.appendChild(priceDiv);
+
                     orderDetailsContainer.appendChild(orderDetailDiv);
                 });
             }
@@ -754,8 +782,8 @@
             });
         });
     });
-    </script>
-    
+</script>
+
 
 
 

@@ -1,8 +1,7 @@
-# forms.py
 from django import forms
-from .models import Order
+from .models import TableOrders
 
-class OrderForm(forms.ModelForm):
+class TableOrderForm(forms.ModelForm):
     class Meta:
-        model = Order
-        fields = ['items', 'total_price']
+        model = TableOrders
+        fields = ['name', 'table_number', 'note']
