@@ -20,66 +20,70 @@
             <div class="header-price" id="order-details"></div>
             <img src="{% static 'images/table.png' %}" alt="Hotel Logo">
         </div>
+        <form class="my-form" method="post" action="/order/">
+            {% csrf_token %}
+            
+            <div class="content">
+                <div class="order-info">
+                    <div class="dine-in">Dine In</div>
+                    <div class="order-price">Price</div>
+                    <hr class="dotted-line">
     
-        <div class="content">
-            <div class="order-info">
-                <div class="dine-in">Dine In</div>
-                <div class="order-price">Price</div>
-                <hr class="dotted-line">
+                    <!-- Order details container with hidden input field -->
+                    <div class="order-details-container" id="order-details-container">
+                        <!-- order details be inserted dynamically here -->
+                      
+                    </div>
     
-                <div class="order-details-container" id="order-details-container">
-                    <!-- order details be inserted dynamically here -->
-                </div>
-    
-                <hr class="second-line">
-                
-                <div class="total-amount" id="order-details">
-                    Total: <span id="total-price">Rs 0.00</span> <!-- Price will be inserted dynamically here -->
-                </div>
-    
-                <hr class="third-line">
-                <span style="color: red;">Fill all required fields</span>
-    
-                <div class="form-container">
-                 <!-- menu.html -->
-
-                <form class="my-form" method="post" action="/order/">
-                    {% csrf_token %}
+                    <hr class="second-line">
                     
-                    <div class="form-section">
-                        <div class="form-group">
-                            <label for="name">Name:</label>
-                            <input type="text" id="name" name="name" placeholder="Enter your name">
-                        </div>
-                        <div class="form-group">
-                            <label for="table">Table No:</label>
-                            <select id="table" name="table_number">
-                                <option value="" disabled selected>Select table</option>
-                                <option value="1">Table 1</option>
-                                <option value="2">Table 2</option>
-                                <option value="3">Table 3</option>
-                                <!-- Add more options up to 50 -->
-                            </select>
-                        </div>
+                    <!-- Total amount with hidden input field -->
+                    <div class="total-amount" id="order-details">
+                        Total: <span id="total-price">Rs 0.00</span> <!-- Price will be inserted dynamically here -->
+                       
                     </div>
-                    <div class="form-group">
-                        <label for="note">Note:</label>
-                        <textarea id="note" name="note" placeholder="Add note"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="timestamp">Timestamp:</label>
-                        <input type="text" id="timestamp" name="timestamp" value="" readonly>
-                    </div>
-                    <button type="submit" id="orderButton" class="popup-button">Order</button>
-                </form>
-
-                </div> <!-- Closing div for form-container -->
-            </div> <!-- Closing div for order-info -->
-        </div> <!-- Closing div for content -->
-    </div> <!-- Closing div for panel-container -->
-    <div class="panel-overlay"></div>
     
+                    <hr class="third-line">
+                    <span style="color: red;">Fill all required fields</span>
+    
+                    <!-- Form container -->
+                    <div class="form-container">
+                        <div class="form-section">
+                            <div class="form-group">
+                                
+                                <input type="hidden" id="order-details-hidden" name="order_details">
+                                <input type="hidden" id="total-price-hidden" name="total_price">
 
+                                <label for="name">Name:</label>
+                                <input type="text" id="name" name="name" placeholder="Enter your name">
+                            </div>
+                            <div class="form-group">
+                                <label for="table">Table No:</label>
+                                <select id="table" name="table_number">
+                                    <option value="" disabled selected>Select table</option>
+                                    <option value="1">Table 1</option>
+                                    <option value="2">Table 2</option>
+                                    <option value="3">Table 3</option>
+                                    <!-- Add more options up to 50 -->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="note">Note:</label>
+                            <textarea id="note" name="note" placeholder="Add note"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="timestamp">Time:</label>
+                            <input type="text" id="timestamp" name="timestamp" value="" readonly>
+                        </div>
+                    </div> <!-- Closing div for form-container -->
+                </div> <!-- Closing div for order-info -->
+            </div> <!-- Closing div for content -->
+        </div> <!-- Closing div for panel-container -->
+        <button type="submit" id="orderButton" class="popup-button">Order</button>
+        <div class="panel-overlay"></div>
+    </form>
+    
     {% comment %}  {% endcomment %}
     
     {% comment %} time stamp js---------------------------------------------------------- {% endcomment %}
@@ -694,51 +698,91 @@
                 cloneImg.classList.add('animate'); // Apply animation
             }
     
-            // Function to update order details
-            function updateOrderDetails(button, count, price) {
-                const cardTitle = button.closest('.hidden-content').querySelector('h4').textContent.trim();
-                const orderDetails = `${count} x ${cardTitle}: Rs ${(count * price).toFixed(2)}`;
+          // Function to update order details
+function updateOrderDetails(button, count, price) {
+    const cardTitle = button.closest('.hidden-content').querySelector('h4').textContent.trim();
+    const orderDetails = `${count} x ${cardTitle}: Rs ${(count * price).toFixed(2)}`;
 
-                if (count === 0) {
-                    // If count is 0, remove order detail from map
-                    orderDetailsMap.delete(button);
-                } else {
-                    // Update or add order detail to map
-                    orderDetailsMap.set(button, orderDetails);
-                }
-    
-                // Update order details container
-                updateOrderDetailsContainer();
-            }
-    
-            // Function to update order details container
-            function updateOrderDetailsContainer() {
-                const orderDetailsContainer = document.getElementById('order-details-container');
-                orderDetailsContainer.innerHTML = ''; // Clear existing order details
-    
-                // Iterate over order details map and append each order detail to container
-                orderDetailsMap.forEach(orderDetail => {
-                    const orderDetailDiv = document.createElement('div');
-                    orderDetailDiv.classList.add('order-details');
+    if (count === 0) {
+        // If count is 0, remove order detail from map
+        orderDetailsMap.delete(button);
+    } else {
+        // Update or add order detail to map
+        orderDetailsMap.set(button, orderDetails);
+    }
 
-                    const parts = orderDetail.split(': Rs');
-                    const countTitle = parts[0];
-                    const price = parseFloat(parts[1]);
+    // Update order details container
+    updateOrderDetailsContainer();
 
-                    const countTitleDiv = document.createElement('div');
-                    countTitleDiv.classList.add('count-title');
-                    countTitleDiv.textContent = countTitle;
+    // Update hidden input fields
+    updateHiddenInputs();
+}
 
-                    const priceDiv = document.createElement('div');
-                    priceDiv.classList.add('price');
-                    priceDiv.textContent = `Rs ${price.toFixed(2)}`;
+// Function to update order details container
+function updateOrderDetailsContainer() {
+    const orderDetailsContainer = document.getElementById('order-details-container');
+    orderDetailsContainer.innerHTML = ''; // Clear existing order details
 
-                    orderDetailDiv.appendChild(countTitleDiv);
-                    orderDetailDiv.appendChild(priceDiv);
+    // Iterate over order details map and append each order detail to container
+    orderDetailsMap.forEach(orderDetail => {
+        const orderDetailDiv = document.createElement('div');
+        orderDetailDiv.classList.add('order-details');
 
-                    orderDetailsContainer.appendChild(orderDetailDiv);
-                });
-            }
+        const parts = orderDetail.split(': Rs');
+        const countTitle = parts[0];
+        const price = parseFloat(parts[1]);
+
+        const countTitleDiv = document.createElement('div');
+        countTitleDiv.classList.add('count-title');
+        countTitleDiv.textContent = countTitle;
+
+        const priceDiv = document.createElement('div');
+        priceDiv.classList.add('price');
+        priceDiv.textContent = `Rs ${price.toFixed(2)}`;
+
+        orderDetailDiv.appendChild(countTitleDiv);
+        orderDetailDiv.appendChild(priceDiv);
+
+        orderDetailsContainer.appendChild(orderDetailDiv);
+    });
+}
+
+// Function to calculate total price
+function calculateTotalPrice() {
+    let totalPrice = 0;
+    // Iterate over order details map to sum up the prices
+    orderDetailsMap.forEach(orderDetail => {
+        const parts = orderDetail.split(': Rs');
+        const price = parseFloat(parts[1]);
+        totalPrice += price;
+    });
+    return totalPrice.toFixed(2);
+}
+
+// Function to update hidden input fields
+function updateHiddenInputs() {
+    const orderDetailsInput = document.getElementById('order-details-hidden');
+    const formattedOrderDetails = formatOrderDetails();
+    orderDetailsInput.value = formattedOrderDetails;
+
+    const totalPriceInput = document.getElementById('total-price-hidden');
+    const totalPrice = calculateTotalPrice();
+    totalPriceInput.value = totalPrice;
+}
+
+// Function to format order details
+function formatOrderDetails() {
+    let formattedDetails = '';
+    orderDetailsMap.forEach(orderDetail => {
+        const parts = orderDetail.split(': Rs ');
+        const countTitle = parts[0];
+        const price = parts[1];
+        const formattedDetail = `${countTitle} - Rs ${price}\n`;
+        formattedDetails += formattedDetail;
+    });
+    return formattedDetails.trim(); // Trim any leading/trailing whitespace
+}
+
     
             // Function to handle decrementing the count
             function decrementCount() {

@@ -6,28 +6,24 @@ from datetime import datetime
 class Card(models.Model):
     name = models.CharField(max_length=100)
     image = models.ImageField(upload_to='card_images/')
-   
 
     def __str__(self):
         return self.name
 
-class TableOrders(models.Model):
+
+
+from django.db import models
+
+
+class Order(models.Model):
     name = models.CharField(max_length=100)
     table_number = models.IntegerField()
-    note = models.TextField()
-    timestamp = models.DateTimeField()
-   
+    order_details = models.TextField()
+    note = models.TextField(blank=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2, null=True)  # Making total_price nullable
+
+
 
     def __str__(self):
-       return f"{self.name} - Table {self.table_number} - Time {self.timestamp.strftime('%d-%m-%Y %I:%M:%S %p')}"
-
-    def save(self, *args, **kwargs):
-        if not self.id:  # Check if it's a new object
-            self.timestamp = datetime.now()  # Set current device time as timestamp
-        super(TableOrders, self).save(*args, **kwargs)
-
-
-
-
-
-
+        return f"Order #{self.id} - {self.name}"

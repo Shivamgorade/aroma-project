@@ -7,17 +7,25 @@ def card_list(request):
     cards = Card.objects.all()
     return render(request, 'menu.html', {'cards': cards})
 
-# views.py
 
 from django.shortcuts import render, redirect
-from .forms import TableOrderForm
+from .forms import OrderForm
+from decimal import Decimal
 
-def order_form(request):
+def order_view(request):
     if request.method == 'POST':
-        form = TableOrderForm(request.POST)
+        form = OrderForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('success_url')  # Redirect to a success page
+            order = form.save(commit=False)
+            total_price = request.POST.get('total_price')
+            if total_price:
+                try:
+                    order.total_price = Decimal(total_price)
+                except ValueError:
+                    pass  # Handle invalid Decimal values here
+            order.order_details = request.POST.get('order_details')
+            order.save()
+            return redirect('success_page')  # Redirect to a success page
     else:
-        form = TableOrderForm()
+        form = OrderForm()
     return render(request, 'menu.html', {'form': form})
