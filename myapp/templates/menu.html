@@ -20,7 +20,7 @@
             <div class="header-price" id="order-details"></div>
             <img src="{% static 'images/table.png' %}" alt="Hotel Logo">
         </div>
-        <form class="my-form" method="post" action="/order/">
+        <form class="my-form" method="post" action="/order/" id="orderForm"> <!-- Add an id to the form for easier targeting -->
             {% csrf_token %}
             
             <div class="content">
@@ -89,13 +89,61 @@
     {% comment %} time stamp js---------------------------------------------------------- {% endcomment %}
 
     
-   <script>
-    // Get current timestamp and format it in 12-hour format
-    var timestamp = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true });
-    document.getElementById('timestamp').value = timestamp;
-</script>
-
-
+    <script>
+        // Get current timestamp and format it in 12-hour format
+        var timestamp = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true });
+        document.getElementById('timestamp').value = timestamp;
+    </script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Find the form and button elements
+            var form = document.getElementById('orderForm');
+            var orderButton = document.getElementById('orderButton');
+    
+            // Add event listener to the form submission
+            form.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent the default form submission behavior
+    
+                // Optionally, you can perform any additional validation here before submitting the form via AJAX
+    
+                // Perform AJAX request to submit the form data
+                var formData = new FormData(form);
+                fetch('/order/', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    // Handle the response as needed
+                    if (response.ok) {
+                        var alertContainer = document.createElement('div');
+                        alertContainer.classList.add('alert-container');
+                        alertContainer.innerHTML = '<p>Hi ' + formData.get('name') + ', your order is placed.</p><button id="closeAlert">Close</button>';
+                        document.body.appendChild(alertContainer);
+                        form.reset(); // Reset the form fields after successful submission
+                    } else {
+                        // Handle errors or display error messages
+                        console.error('Error:', response.statusText);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+    
+            // Event listener to close the alert
+            document.addEventListener('click', function(event) {
+                if (event.target.id === 'closeAlert') {
+                    var alertContainer = document.querySelector('.alert-container');
+                    if (alertContainer) {
+                        alertContainer.remove();
+                    }
+                }
+            });
+        });
+    </script>
+    
+    
 {% comment %} ---------------------------------------------------------------------------------------------- {% endcomment %}
 <script>
       const panelOverlay = document.querySelector('.panel-overlay');

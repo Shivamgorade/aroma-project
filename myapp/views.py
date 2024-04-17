@@ -8,9 +8,10 @@ def card_list(request):
     return render(request, 'menu.html', {'cards': cards})
 
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from .forms import OrderForm
 from decimal import Decimal
+from django.utils import timezone
 
 def order_view(request):
     if request.method == 'POST':
@@ -24,8 +25,12 @@ def order_view(request):
                 except ValueError:
                     pass  # Handle invalid Decimal values here
             order.order_details = request.POST.get('order_details')
+            
+            # Save the current time as the timestamp
+            order.timestamp = timezone.now()
+            
             order.save()
-            return redirect('success_page')  # Redirect to a success page
+            return render(request, 'menu.html', {'form': form, 'order_placed': True})  # Render the same page with an indication that the order was successfully placed
     else:
         form = OrderForm()
     return render(request, 'menu.html', {'form': form})

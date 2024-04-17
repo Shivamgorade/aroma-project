@@ -1,7 +1,8 @@
 # models.py
 
+from datetime import timezone
 from django.db import models
-from datetime import datetime
+
 
 class Card(models.Model):
     name = models.CharField(max_length=100)
@@ -11,19 +12,17 @@ class Card(models.Model):
         return self.name
 
 
-
 from django.db import models
-
+from django.utils import timezone
 
 class Order(models.Model):
     name = models.CharField(max_length=100)
     table_number = models.IntegerField()
     order_details = models.TextField()
     note = models.TextField(blank=True)
-    timestamp = models.DateTimeField(auto_now_add=True)
-    total_price = models.DecimalField(max_digits=10, decimal_places=2, null=True)  # Making total_price nullable
-
-
-
+    total_price = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    timestamp = models.DateTimeField()
+    
     def __str__(self):
-        return f"Order #{self.id} - {self.name}"
+        current_time = timezone.localtime(self.timestamp).strftime('%I:%M %p')  # Get current time in the timezone of the order
+        return f"Order #{self.id} - {self.name} - Time {current_time}"
