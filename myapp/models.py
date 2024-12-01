@@ -16,7 +16,7 @@ from django.db import models
 from django.utils import timezone
 
 class Order(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=1000)
     table_number = models.IntegerField()
     order_details = models.TextField()
     note = models.TextField(blank=True)

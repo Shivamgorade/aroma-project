@@ -1,0 +1,769 @@
+body, html {
+    margin: 0;
+    padding: 0px;
+    height: 100%;
+    font-family: 'StratosLCWeb-Regular', sans-serif; /* Replace 'YourFontName' with the name of your font */
+    }
+
+    /* CSS for the alert container */
+.alert-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    padding: 20px;
+    max-width: 400px;
+    text-align: center;
+}
+
+.alert-container p {
+    margin: 0;
+}
+
+.alert-container button {
+    background-color: #f5c6cb;
+    border: none;
+    color: #721c24;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.alert-container button:hover {
+    background-color: #f8d7da;
+}
+
+
+    .panel-overlay {
+        position: fixed;
+        top: 0;
+        transform: translateX(-50%);
+        left: 50%;
+        width: 100%;
+        max-width: 450px;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.614); /* Initial opacity */
+        display: none; /* Initially hidden */
+        z-index: 30000; /* Ensure it's above other content */
+        transition: background-color 0.7s ease; /* Smooth transition */
+      }
+  
+      .panel-container {
+        animation: panel-animation 0.6s linear;
+        margin: 0 auto;
+        transform: translateX(-50%); /* Start from the center */
+        left: 50%;
+        position: fixed;
+        bottom: 0;
+       overflow: auto;
+        width: 100%;
+        max-width: 450px;
+        height: 64px;
+        background-color: #f0e3cb;
+        transition: height 0.7s ease; /* Smooth height transition */
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        z-index: 300000; /* Ensure it's above the overlay */
+    }
+   
+
+@keyframes panel-animation {
+    0% {
+      transform: translateX(-50%) translateY(0) ;
+    }
+   
+    50% {
+      transform: translateX(-50%) translateY(-70px); /* Adjust the curve degree and height */
+   
+    }
+   
+    100% {
+      transform: translateX(-50%) translateY(0px); 
+  
+    }
+  }
+    
+    .content {
+        background-color: #f0e3cb;
+       
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+       
+        padding: 20px; /* Add some padding */
+    }
+    
+    .order-info {
+        
+        
+        position: relative;
+        width: 100%;
+    }
+    
+    .dine-in {
+        color: green;
+        padding: 10px;
+        border-radius: 10px;
+        background-color: #eeeeee;
+        position: absolute;
+        left: 10px;
+        top: 0;
+        /* Adjust styles for left side */
+    }
+    
+    .order-price {
+        color: green;
+        padding: 10px;
+        border-radius: 10px;
+        background-color: #eeeeee;
+        position: absolute;
+        right: 10px;
+        top: 0;
+        /* Adjust styles for right side */
+    }
+    
+    .dotted-line {
+        margin-top: 50px;
+        opacity: 0.2;
+        border-top: 3px dashed black; /* Adjust color and thickness as needed */
+        width: 100%; /* Adjust width as needed */
+         max-width: 440px;
+        /* Adjust margin as needed */
+    }
+    .second-line{
+       margin-top: 50px;
+        opacity: 0.2;
+        border-top: 3px dashed black; /* Adjust color and thickness as needed */
+        width: 100%;
+        max-width: 440px; /* Adjust width as needed */
+    }
+.third-line{
+    max-width: 440px; /* Adjust width as needed */
+    opacity: 0.2;
+    border-top: 3px dashed black; /* Adjust color and thickness as needed */
+    width: 100%; /* Adjust width as needed */
+}
+.total-amount {
+    color: #000000;
+    font-size: 18px;
+    border-radius: 15px;
+    padding: 10px;
+    display: flex; /* Use flexbox */
+    justify-content: space-between; /* Distribute items equally */
+    align-items: center; /* Center-align items vertically */
+}
+
+.order-details {
+    
+    line-height: 30px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.order-details .count-title {
+    flex: 1;
+}
+
+.order-details .price {
+    flex: 1;
+    text-align: right;
+}
+
+.header-price{
+    font-size: 18px;
+}
+    .panel-container.opened {
+        height: 82%; /* 70% of the viewport height */
+    }
+    .panel-header-text{
+        color: #d5d5d5;
+        font-weight: bold;
+        font-size: 18px;
+    }
+    .panel-header {
+        
+        z-index: 3;
+        font-size: 21px;
+        position: sticky; /* Change position to sticky */
+        top: 0; /* Stick to the top */
+        height: 64px;
+        background-color: #363636;
+        color: white;
+        padding: 0 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+    }
+    
+    .click-on-img img{
+        width: 100%;
+        max-width: 60px;
+        height: auto;
+        margin-top: -30px;
+       
+        
+    }
+    .panel-header img {
+        fill: white;
+        width: 30px;
+        height: 30px;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    
+      .popup-button {
+        z-index: 310000;
+        box-shadow: 0 4px 8px 3px rgba(0, 0, 0, 0.336);
+        display: none;
+        position: absolute;
+        bottom: 15px; /* Adjust button position as needed */
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #808080; /* Green background */
+        color: white;
+        padding: 13px 38px;
+        border: none;
+        border-radius: 20px;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+        animation: order-btn-animation .5s linear;
+      }
+      .popup-button:hover {
+        background-color: green; /* Change background color on hover */
+    }
+    
+      @keyframes order-btn-animation {
+    0% {
+      transform: translateX(-50%) scale(0);
+    }
+    50% {
+      transform: translateX(-50%) scale(1.1);
+    }
+    100% {
+      transform: translateX(-50%) scale(1);
+    }
+  }
+      
+
+
+
+.form-container {
+  max-width: 400px;
+  margin: 10px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group:last-child {
+  margin-bottom: 0; /* Remove bottom margin for the last form group */
+}
+
+input[type="text"],
+select,
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-sizing: border-box; /* Ensure padding and border are included in width */
+}
+
+#note{
+    
+    background-color: rgb(255, 255, 194);
+}
+select {
+  height: 40px; /* Set height for select input */
+}
+
+textarea {
+  height: 100px; /* Set height for textarea */
+}
+
+input[readonly] {
+  background-color: #f0f0f0; /* Change background color for readonly inputs */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    .main-container{
+        position: fixed;
+        width: 100%;
+        max-width: 450px;  /*450 standard chage it to view accurate on side in hidden content  */
+        left: 50%;
+        transform: translateX(-50%);
+        overflow-y: hidden;
+    }
+.container {
+    
+      box-shadow: 0 4px 8px 3px rgba(0, 0, 0, 0.336);
+      background-color: #e9e5db;
+      max-width: 450px;
+      width: 100%;
+      margin: 0 auto;
+      margin-top: 0px; /* Adjust as per your header and scroll menu height */
+      overflow-y: auto; /* Enable vertical scrolling */
+      height: 100vh; /* Adjust as per your header and scroll menu height */
+    }
+
+/*------------------------------------------------------------------------------- Header section with logo and title -*/
+.header {
+    width: 100%;
+    max-width: 450px;
+    background-color: #E9E5DB;
+    top: 0; /* header height from webpage */
+    position: fixed;
+    display: flex;
+    justify-content: flex-start;
+    z-index: 10;
+    transition: top 0.9s ease; /* Smooth transition */
+}
+
+/* ----------------------------------------------------------------------------------------Title of the application */
+.header h1 {
+
+    letter-spacing: 1px;
+    font-size: 25px;
+   color: #363636;
+}
+
+/* ---------------------------------------s-----------------------------Logo image */
+.header img {
+    margin-top: -10px;
+    padding-left: 10px;
+    max-width: 80px;
+    width: auto;
+    height: auto;
+}
+
+/* --------------------------------------------------------------------------------Scrollable menu container */
+.scrollmenu {
+    
+    width: 100%;
+    max-width: 450px;
+    position: fixed; 
+    top: 62px; /* scrollmenu height from header  */
+    justify-content: space-between;
+    display: block;
+    margin-top: 0px;
+    background-color: #c1CBB4;
+    z-index: 10;
+    white-space: nowrap;
+    overflow-x: auto;
+    transition: top 0.9s ease, box-shadow 0.5s ease; /* Add box-shadow transition */
+   
+
+}
+.shadow {
+    box-shadow: 0 8px 8px -6px rgba(0, 0, 0, 0.4);
+}
+
+
+/* -----------------------------------------------------------------------------Individual card in the scrollable menu */
+.card {
+    display: inline-block;
+    max-width: 300px;
+    margin: 10px; /* Add margin around each card for spacing */
+    text-align: center;
+    font-family: arial;
+   
+  
+}
+
+
+/* ---------------------------------------------------------------------------Style for card images */
+.card img {
+ 
+    max-width: 65px;
+    width: auto;
+    height: auto;
+}
+
+/*------------------------------------------------------------------------ Style for text within the cards */
+.card p {
+    font-weight: bold;
+    color: #363636;
+    margin-top: 2px;
+    margin-bottom: 0;
+}
+.highlighter {
+    background-color: #FCF1DD;
+    position: absolute;
+    top: 12px;
+    left: 0;
+    width: 65px; /* Set your desired width */
+    height: 65px; /* Set your desired height */
+    border-radius: 15px; /* Set border radius */
+    will-change: transform;
+    transition: transform 0.9s ease; /* Adjust the transition duration as needed */
+    z-index: -1; /* Set a lower z-index to position it behind the cards */
+  }
+
+  .grid-container {
+    position: relative;
+    display: flex;
+    grid-template-columns: auto auto;
+    display: none;
+    padding-top: 7px;
+}
+.grid{
+   
+    padding: 173px;
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 10px;
+    padding-left: 7px;
+    padding-right: 7px;
+}
+
+.item-card {
+    height: 155px;
+    border: 0.3px;
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+    background-color:#e5e4e0;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin-bottom: 0px; /* Add some margin at the bottom for spacing */
+}
+
+.image-container {
+    margin-bottom: 35px;
+    position: relative;
+    overflow: hidden;
+    width: 100%; /* Ensure the container fits the card width */
+    height: auto; /* Adjust the height of the container */
+}
+
+.image-container img {
+   
+    margin: 0 auto; /* Center the image horizontally */
+    
+    width: 100%;
+    max-width: 120px; /* Ensure the image doesn't overflow the container */
+    height: auto;
+    display: block; /* Remove any default inline spacing */
+}
+
+
+.content-container {
+   
+    border-color: #808080;
+    font-family: Arial, Helvetica, sans-serif;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #e1e0de;
+    padding: 10px;
+    color: #000000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.content-container h4,
+.content-container .price {
+    color: #363636;
+    margin: 0;
+    flex: 1; /* Distribute remaining space evenly */
+}
+
+.content-container h4 {
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Hide overflowing text */
+    text-overflow: ellipsis; /* Display ellipsis for overflowed text */
+    /* Add any other styles you want */
+    font-size: 17px;
+    text-align: left;
+}
+
+.content-container .price {
+    font-weight: bold;
+    padding-right: 15px;
+    font-size: 15px;
+    text-align: right;
+}
+
+/* ------------------------------------------------------- */
+.large-card {
+    position: relative;
+    width: 100%;
+   max-width: 450px;
+    background-color:#E9E5DB;
+    overflow: hidden;
+    margin-bottom: 0px; /* Add some margin at the bottom for spacing */
+}
+
+.large-container {
+    margin-bottom: 50px;
+    position: relative;
+    overflow: hidden;
+    width: 100%; /* Ensure the container fits the card width */
+    height: 265px; /* Adjust the height of the container */
+}
+
+.large-container img {
+   
+    margin: 0 auto; /* Center the image horizontally */
+    width: 100%;
+    max-width: 265px;
+    height: auto;
+    display: block; /* Remove any default inline spacing */
+}
+
+
+.details {
+    font-family: Arial, Helvetica, sans-serif;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color:  #e1e0de;
+    padding: 20px;
+    color: #000000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.details h4,
+.details .amount {
+    margin: 0;
+    flex: 1; /* Distribute remaining space evenly */
+}
+
+.details h4 {
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Hide overflowing text */
+    text-overflow: ellipsis; /* Display ellipsis for overflowed text */
+    /* Add any other styles you want */
+    font-size: 19px;
+    text-align: left;
+    align-items: center;
+    padding-left: 67px;
+}
+
+.details .amount {
+    padding: 0px;
+    padding-right: 35px;
+    font-size: 18px;
+    text-align: right;
+}
+.details .animation-img {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 45px; /* Adjust the size as needed */
+    height: 45px; /* Adjust the size as needed */
+}
+
+.details .animation-img img {
+    width: 100%;
+    height: auto;
+}
+.animation-img-clone {
+    top: 284.5px;
+    position: absolute;
+    left: 20px;
+    transform: translateY(-50%);
+    width: 45px; /* Adjust the size as needed */
+    height: 45px; /* Adjust the size as needed */
+    z-index: 3;
+}
+
+ .animation-img-clone img {
+    animation: none; /* Initially set animation to none */
+    width: 100%;
+    height: auto;
+ 
+}
+.animation-img-clone img.animate {
+    animation: none; /* Initially set animation to none */
+    animation: animation-img .3s linear;
+}
+@keyframes animation-img {
+    0% {
+      transform: translateY(0) translateX(0) scale(1) rotate(0deg);
+    }
+    25% {
+      transform: translateY(-50px) translateX(30px) scale(1.1)  rotate(-15deg); /* Adjust the curve degree and height */
+    }
+    50% {
+      transform: translateY(-65px) translateX(60px) scale(1.2) rotate(55deg); /* Adjust the curve degree and height */
+      opacity: 0.8;
+    }
+    75% {
+      transform: translateX(155px) scale(1.3) rotate(65deg); /* Adjust the curve degree and height */
+      opacity: 0.6;
+    }
+   
+    100% {
+      transform: translateY(400px) translateX(210px)  scale(1.4) rotate(70deg); 
+      opacity: 0.3;
+    }
+  }
+.back-button {
+    position: absolute;
+    top: 17px;
+    left: 20px;
+    z-index: 9999;
+}
+
+.back-button img {
+    width: 33px; /* Adjust size of the back button image */
+    height: 33px; /* Adjust size of the back button image */
+    background-color: #f0f0f0;
+    border-radius: 50%;
+    padding: 8px;
+}
+/* ---------------------------------------------------------------------- */
+
+
+
+.hidden-content {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    background-color: #fafafa;
+    text-align: center;
+    width: 100%;
+    max-width: 460px;
+    margin: 0 auto;
+    height: 100%;
+    overflow-y: hidden;
+    opacity: 0; /* Start with opacity 0 for fade-in effect */
+    transition: opacity 0.2s ease-in-out; /* Add transition for opacity property */
+}
+
+.visible {
+    display: block;
+    opacity: 1; /* Set opacity to 1 for visible content */
+}
+
+.add-product-btn {
+    z-index: 9999;
+    margin-top: -16px;
+    position: absolute;
+    right: 30px;
+    will-change: transform;
+    display: flex;
+    align-items: center;
+}
+
+.add-product-btn__plus {
+    height: 56px;
+    width: 56px;
+   padding: 8px;
+    border-radius: 50%;
+    color: white;
+    background:#24ae43;
+    box-shadow: 0 4px 4px #00000072;
+    position: relative;
+    transition: transform 0.3s ease;
+    
+}
+.counter-2 {
+    color: white;
+    display: none;
+    position: absolute;
+    background-color: #24ae43;
+    padding: 5px 10px;
+    border-bottom-right-radius: 5px;
+  }
+.add-product-btn__plus>svg {
+    width: 40px;
+    height: 40px;
+}
+
+.add-product-btn__expander {
+    border-radius: 50%;
+    background-color: #24ae43;
+    color: white;
+    height: 53px;
+    padding: 0 40px 0 0;
+    border-top-left-radius: 9999px;
+    border-bottom-left-radius: 9999px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    left: 25px;
+    opacity: 0;
+    transition: opacity 0.7s, transform 0.5s ease-in-out;
+    transform: translateX(10%);
+}
+
+.add-product-btn__expander.active {
+    opacity: 1;
+    transform: translateX(0%);
+}
+
+.add-product-btn__expander button {
+    padding: 10px;
+    width: 48px;
+    height: 48px;
+    border-radius: 60px;
+    background-color: #24ae43;
+    box-shadow: 0 1px 3px #00000069;
+    color: white;
+}
+.btn btn--icon add-product-btn__plus no-tap-highlight{
+    outline: none;
+}
+.btn{
+border: none;
+
+}
+  .product-description {
+    position: absolute;
+    padding: 50px 20px 0;
+    text-align: left;
+    font-size: 16px;
+    color: var(--ik-bg-high-contrast-color);
+    box-sizing: border-box;
+    line-height: 1.6rem;
+    opacity: 0.7;
+}

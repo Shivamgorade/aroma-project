@@ -13,9 +13,9 @@
 
     <div class="panel-container">
         <div class="panel-header">
-            <div class="panel-header-text">Await your order</div>
+            <div class="panel-header-text">check your order</div>
             <div class="click-on-img">
-                <img src="{% static 'images/swipe-up.png' %}" alt="Burger Image">
+                <img src="{% static 'images/click on.png' %}" alt="Burger Image">
             </div>
             <div class="header-price" id="order-details"></div>
             <img src="{% static 'images/table.png' %}" alt="Hotel Logo">
@@ -120,7 +120,7 @@
                         alertContainer.classList.add('alert-container');
                         alertContainer.innerHTML = '<p>Hi ' + formData.get('name') + ', your order is placed.</p><button id="closeAlert">Close</button>';
                         document.body.appendChild(alertContainer);
-                        form.reset(); // Reset the form fields after successful submission
+                        
                     } else {
                         // Handle errors or display error messages
                         console.error('Error:', response.statusText);
@@ -199,8 +199,8 @@
             <div class="highlighter"></div> <!-- Highlighter element -->
 
             <div class="card active" onclick="toggleItems('burger')">
-                <img src="{% static 'images/burger.png' %}" alt="Burger Image"> 
-                <p>Burger</p>               
+                <img src="{% static 'images/veg2.png' %}" alt="Burger Image"> 
+                <p>VEG</p>               
             </div>
         
             {% for card in cards %}
@@ -218,21 +218,21 @@
         <div class="item-card" onclick="showContent(1.1)">
             <div class="counter-2"></div>
             <div class="image-container">
-                <img src="{% static 'images/burger.png' %}" alt="Burger Image">
+                <img src="{% static 'images/aloo mutter.png' %}" alt="Burger Image">
             </div>
             <div class="content-container">
-                <h4>Burger 1.1</h4>
-                <p class="price">$10.99</p>
+                <h4>Aloo Mutter</h4>
+                <p class="price">₹120</p>
             </div>
         </div>
         <div class="item-card" onclick="showContent(1.2)">
             <div class="counter-2"></div>
             <div class="image-container">
-                <img src="{% static 'images/burger.png' %}" alt="Burger Image">
+                <img src="{% static 'images/mushroom.png' %}" alt="Burger Image">
             </div>
             <div class="content-container">
-                <h4>Burger 1.2</h4>
-                <p class="price">$10.99</p>
+                <h4>Mashroom Masala</h4>
+                <p class="price">₹150</p>
             </div>
         </div>
         <div class="item-card" onclick="showContent(1.3)">
@@ -242,7 +242,7 @@
             </div>
             <div class="content-container">
                 <h4>Burger 1.3</h4>
-                <p class="price">$10.99</p>
+                <p class="price">₹10.99</p>
             </div>
         </div>
         <div class="item-card" onclick="showContent(1.4)">
@@ -252,7 +252,7 @@
             </div>
             <div class="content-container">
                 <h4>Burger 1.4</h4>
-                <p class="price">$10.99</p>
+                <p class="price">₹10.99</p>
             </div>
         </div>
 
@@ -260,7 +260,7 @@
     </div>
 </div>
 
-<div class="grid-container" id="veg">
+<div class="grid-container" id="NON VEG">
     <div class="grid">
 
         <div class="item-card" onclick="showContent(2.1)">
@@ -270,11 +270,11 @@
             </div>
             <div class="content-container">
                 <h4>veg 2.1</h4>
-                <p class="price">$10.99</p>
+                <p class="price">₹10.99</p>
             </div>
         </div>
         <div class="item-card" onclick="showContent(2.2)">
-            <div class="counter-2">0</div>
+            <div class="counter-2"></div>
             <div class="image-container">
                 <img src="{% static 'images/burger.png' %}" alt="Burger Image">
             </div>
@@ -290,7 +290,7 @@
             </div>
             <div class="content-container">
                 <h4>veg 2.3</h4>
-                <p class="price">$10.99</p>
+                <p class="price">₹10.99</p>
             </div>
         </div>
         <div class="item-card" onclick="showContent(2.4)">
@@ -300,7 +300,7 @@
             </div>
             <div class="content-container">
                 <h4>veg 2.4</h4>
-                <p class="price">$10.99</p>
+                <p class="price">₹10.99</p>
             </div>
         </div>
         
@@ -322,17 +322,17 @@
             </div>
 
             <div class="large-container">
-                <img src="{% static 'images/burger.png' %}" alt="Burger Image">
+                <img src="{% static 'images/aloo mutter.png' %}" alt="Burger Image">
             </div>
 
             <div class="details">
-                <div class="animation-img"><img src="{% static 'images/burger.png' %}" alt="Burger Image"></div>
-                <h4>berger 1.1 </h4>
-                <p class="amount">$10.99</p>
+                <div class="animation-img"><img src="{% static 'images/aloo mutter.png' %}" alt="Burger Image"></div>
+                <h4>Aloo Mutter</h4>
+                <p class="amount">₹120</p>
             </div> 
            
         </div> 
-        <div class="animation-img-clone"><img src="{% static 'images/burger.png' %}" alt="Burger Image"></div>
+        <div class="animation-img-clone"><img src="{% static 'images/aloo mutter.png' %}" alt="Burger Image"></div>
         <div class="button-container">
             <div class="add-product-btn">
                 <div class="add-product-btn__expander">
@@ -368,17 +368,17 @@
             </div>
 
             <div class="large-container">
-                <img src="{% static 'images/burger.png' %}" alt="Burger Image">
+                <img src="{% static 'images/mushroom.png' %}" alt="Burger Image">
             </div>
 
             <div class="details">
-                <div class="animation-img"><img src="{% static 'images/burger.png' %}" alt="Burger Image"></div>
-                <h4>berger 1.2 </h4>
-                <p class="amount">$10.99</p>
+                <div class="animation-img"><img src="{% static 'images/mushroom.png' %}" alt="Burger Image"></div>
+                <h4>Mashroom Masala </h4>
+                <p class="amount">₹150</p>
             </div> 
 
         </div> 
-        <div class="animation-img-clone"><img src="{% static 'images/burger.png' %}" alt="Burger Image"></div>
+        <div class="animation-img-clone"><img src="{% static 'images/mushroom.png' %}" alt="Burger Image"></div>
         <div class="button-container">
             <div class="add-product-btn">
                 <div class="add-product-btn__expander">
@@ -419,7 +419,7 @@
             <div class="details">
                 <div class="animation-img"><img src="{% static 'images/burger.png' %}" alt="Burger Image"></div>
                 <h4>burger 1.3 </h4>
-                <p class="amount">$1000</p>
+                <p class="amount">₹1000</p>
             </div> 
 
         </div> 
@@ -458,13 +458,13 @@
             </div>
 
             <div class="large-container">
-                <img src="{% static 'images/burger.png' %}" alt="Burger Image">
+                <img src="{% static 'images/aloo mutter.png' %}" alt="Burger Image">
             </div>
 
             <div class="details">
                 <div class="animation-img"><img src="{% static 'images/burger.png' %}" alt="Burger Image"></div>
                 <h4>berger 1.4</h4>
-                <p class="amount">$10.99</p>
+                <p class="amount">₹10.99</p>
             </div> 
 
         </div> 
@@ -703,7 +703,7 @@
     
             // Extract price from the card
             const amountElement = plusButton.closest('.hidden-content').querySelector('.amount');
-            const price = parseFloat(amountElement.textContent.replace('$', ''));
+            const price = parseFloat(amountElement.textContent.replace('₹', ''));
     
             // Initialize count for each card
             let count = 0;
@@ -831,7 +831,6 @@ function formatOrderDetails() {
     return formattedDetails.trim(); // Trim any leading/trailing whitespace
 }
 
-    
             // Function to handle decrementing the count
             function decrementCount() {
                 if (count > 0) {

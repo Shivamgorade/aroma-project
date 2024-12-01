@@ -1,0 +1,25 @@
+<!-- templates/admin/base_site.html -->
+{% extends "admin/base_site.html" %}
+
+{% block title %}
+    My Custom Admin Panel
+{% endblock %}
+
+{% block branding %}
+    <h1 id="site-name"><a href="{% url 'admin:index' %}">My Custom Admin</a></h1>
+{% endblock %}
+
+{% block extrastyle %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/custom_admin.css' %}">
+{% endblock %}
+
+{% block nav-global-ctr %}
+    {# Add or modify navigation menu items here #}
+    {{ block.super }}
+{% endblock %}
+
+{% block footer %}
+    <div class="footer">
+        <p>&copy; 2024 My Custom Admin. All rights reserved.</p>
+    </div>
+{% endblock %}
