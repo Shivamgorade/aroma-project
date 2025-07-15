@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AROMA</title>
+    <script src="{% static 'js/script.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'fonts/StratosLCWeb-Regular.ttf' %}">
+</head>
+<body> 
+
+    <div class="panel-container">
+        <div class="panel-header">
+            <div class="panel-header-text">check your order</div>
+            <div class="click-on-img">
+                <img src="{% static 'images/click on.png' %}" alt="Burger Image">
+            </div>
+            <div class="header-price" id="order-details"></div>
+            <img src="{% static 'images/table.png' %}" alt="Hotel Logo">
+        </div>
+        <form class="my-form" method="post" action="/order/" id="orderForm"> <!-- Add an id to the form for easier targeting -->
+            {% csrf_token %}
+            
+            <div class="content">
+                <div class="order-info">
+                    <div class="dine-in">Dine In</div>
+                    <div class="order-price">Price</div>
+                    <hr class="dotted-line">
+    
+                    <!-- Order details container with hidden input field -->
+                    <div class="order-details-container" id="order-details-container">
+                        <!-- order details be inserted dynamically here -->
+                      
+                    </div>
+    
+                    <hr class="second-line">
+                    
+                    <!-- Total amount with hidden input field -->
+                    <div class="total-amount" id="order-details">
+                        Total: <span id="total-price">Rs 0.00</span> <!-- Price will be inserted dynamically here -->
+                       
+                    </div>
+    
+                    <hr class="third-line">
+                    <span style="color: red;">Fill all required fields</span>
+    
+                    <!-- Form container -->
+                    <div class="form-container">
+                        <div class="form-section">
+                            <div class="form-group">
+                                
+                                <input type="hidden" id="order-details-hidden" name="order_details">
+                                <input type="hidden" id="total-price-hidden" name="total_price">
+
+                                <label for="name">Name:</label>
+                                <input type="text" id="name" name="name" placeholder="Enter your name">
+                            </div>
+                            <div class="form-group">
+                                <label for="table">Table No:</label>
+                                <select id="table" name="table_number">
+                                    <option value="" disabled selected>Select table</option>
+                                    <option value="1">Table 1</option>
+                                    <option value="2">Table 2</option>
+                                    <option value="3">Table 3</option>
+                                    <!-- Add more options up to 50 -->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="note">Note:</label>
+                            <textarea id="note" name="note" placeholder="Add note"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="timestamp">Time:</label>
+                            <input type="text" id="timestamp" name="timestamp" value="" readonly>
+                        </div>
+                    </div> <!-- Closing div for form-container -->
+                </div> <!-- Closing div for order-info -->
+            </div> <!-- Closing div for content -->
+        </div> <!-- Closing div for panel-container -->
+        <button type="submit" id="orderButton" class="popup-button">Order</button>
+        <div class="panel-overlay"></div>
+    </form>
+    
+    {% comment %}  {% endcomment %}
+    
+    {% comment %} time stamp js---------------------------------------------------------- {% endcomment %}
+
+    
+    <script>
+        // Get current timestamp and format it in 12-hour format
+        var timestamp = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true });
+        document.getElementById('timestamp').value = timestamp;
+    </script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Find the form and button elements
+            var form = document.getElementById('orderForm');
+            var orderButton = document.getElementById('orderButton');
+    
+            // Add event listener to the form submission
+            form.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent the default form submission behavior
+    
+                // Optionally, you can perform any additional validation here before submitting the form via AJAX
+    
+                // Perform AJAX request to submit the form data
+                var formData = new FormData(form);
+                fetch('/order/', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    // Handle the response as needed
+                    if (response.ok) {
+                        var alertContainer = document.createElement('div');
+                        alertContainer.classList.add('alert-container');
+                        alertContainer.innerHTML = '<p>Hi ' + formData.get('name') + ', your order is placed.</p><button id="closeAlert">Close</button>';
+                        document.body.appendChild(alertContainer);
+                        
+                    } else {
+                        // Handle errors or display error messages
+                        console.error('Error:', response.statusText);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+    
+            // Event listener to close the alert
+            document.addEventListener('click', function(event) {
+                if (event.target.id === 'closeAlert') {
+                    var alertContainer = document.querySelector('.alert-container');
+                    if (alertContainer) {
+                        alertContainer.remove();
+                    }
+                }
+            });
+        });
+    </script>
+    
+    
+{% comment %} ---------------------------------------------------------------------------------------------- {% endcomment %}
+<script>
+      const panelOverlay = document.querySelector('.panel-overlay');
+      const panelContainer = document.querySelector('.panel-container');
+      const panelHeader = document.querySelector('.panel-header');
+      const orderButton = document.getElementById('orderButton');
+      
+      panelHeader.addEventListener('click', function(event) {
+        panelContainer.classList.toggle('opened');
+        if (panelContainer.classList.contains('opened')) {
+          panelOverlay.style.display = 'block';
+          orderButton.style.display = 'block'; // Show the order button when panel opens
+          setTimeout(() => {
+            panelOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+          }, 10); // Delay to ensure smooth transition
+        } else {
+          panelOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0)';
+          orderButton.style.display = 'none'; // Hide the order button when panel closes
+          setTimeout(() => {
+            panelOverlay.style.display = 'none';
+          }, 500); // Match transition duration
+        }
+      });
+      
+      // Close the panel when clicking outside the container
+      document.addEventListener('click', function(event) {
+        if (!event.target.closest('.panel-container')) {
+          panelContainer.classList.remove('opened');
+          panelOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0)';
+          orderButton.style.display = 'none'; // Hide the order button when panel closes
+          setTimeout(() => {
+            panelOverlay.style.display = 'none';
+          }, 500); // Match transition duration
+        }
+      });
+    </script> 
+    
+    
+    {% comment %} -------------------------------------------------------------------------------------------------MAIN CONTAINER---------------- {% endcomment %}
+    <div class="main-container">
+    <div class="container" id="container">
+        {% comment %} --------------------------------------------------------------------------------------------- -HEADER----------------------- {% endcomment %}
+        <div class="header" id="header">
+            <img src="{% static 'images/logo.png' %}" alt="Hotel Logo">
+            <h1>AROMA</h1>
+        </div>
+
+{% comment %} -------------------------------------------------------------------------------------------------------SCROLLMENU------------------ {% endcomment %}
+         <div class="scrollmenu" id="scrollmenu">
+
+            <body onload="setDefault()"> <!------------------------------------------------------------------ FOR DEFAULT CARD SELECTION -->
+
+            <div class="highlighter"></div> <!-- Highlighter element -->
+
+            <div class="card active" onclick="toggleItems('burger')">
+                <img src="{% static 'images/veg2.png' %}" alt="Burger Image"> 
+                <p>VEG</p>               
+            </div>
+        
+            {% for card in cards %}
+            <div class="card" onclick="toggleItems('{{ card.name }}')">
+                <img src="{{ card.image.url }}" alt="{{ card.name }} Image"> 
+                <p>{{ card.name }}</p>               
+            </div>
+            {% endfor %}
+        </div>
+
+{% comment %} ------------------------------------------------------------------------------html for the grid container corresponding to scroll menu  {% endcomment %}
+ <div class="grid-container" id="burger">
+    <div class="grid">
+
+        <div class="item-card" onclick="showContent(1.1)">
+            <div class="counter-2"></div>
+            <div class="image-container">
+                <img src="{% static 'images/aloo mutter.png' %}" alt="Burger Image">
+            </div>
+            <div class="content-container">
+                <h4>Aloo Mutter</h4>
+                <p class="price">₹120</p>
+            </div>
+        </div>
+        <div class="item-card" onclick="showContent(1.2)">
+            <div class="counter-2"></div>
+            <div class="image-container">
+                <img src="{% static 'images/mushroom.png' %}" alt="Burger Image">
+            </div>
+            <div class="content-container">
+                <h4>Mashroom Masala</h4>
+                <p class="price">₹150</p>
+            </div>
+        </div>
+        <div class="item-card" onclick="showContent(1.3)">
+            <div class="counter-2"></div>
+            <div class="image-container">
+                <img src="{% static 'images/burger.png' %}" alt="Burger Image">
+            </div>
+            <div class="content-container">
+                <h4>Burger 1.3</h4>
+                <p class="price">₹10.99</p>
+            </div>
+        </div>
+        <div class="item-card" onclick="showContent(1.4)">
+            <div class="counter-2"></div>
+            <div class="image-container">
+                <img src="{% static 'images/burger.png' %}" alt="Burger Image">
+            </div>
+            <div class="content-container">
+                <h4>Burger 1.4</h4>
+                <p class="price">₹10.99</p>
+            </div>
+        </div>
+
+        
+    </div>
+</div>
+
+<div class="grid-container" id="NON VEG">
+    <div class="grid">
+
+        <div class="item-card" onclick="showContent(2.1)">
+            <div class="counter-2">0</div>
+            <div class="image-container">
+                <img src="{% static 'images/burger.png' %}" alt="Burger Image">
+            </div>
+            <div class="content-container">
+                <h4>veg 2.1</h4>
+                <p class="price">₹10.99</p>
+            </div>
+        </div>
+        <div class="item-card" onclick="showContent(2.2)">
+            <div class="counter-2"></div>
+            <div class="image-container">
+                <img src="{% static 'images/burger.png' %}" alt="Burger Image">
+            </div>
+            <div class="content-container">
+                <h4>veg 2.2</h4>
+                <p class="price">$10.99</p>
+            </div>
+        </div>
+        <div class="item-card" onclick="showContent(2.3)">
+            <div class="counter-2">0</div>
+            <div class="image-container">
+                <img src="{% static 'images/burger.png' %}" alt="Burger Image">
+            </div>
+            <div class="content-container">
+                <h4>veg 2.3</h4>
+                <p class="price">₹10.99</p>
+            </div>
+        </div>
+        <div class="item-card" onclick="showContent(2.4)">
+            <div class="counter-2">0</div>
+            <div class="image-container">
+                <img src="{% static 'images/burger.png' %}" alt="Burger Image">
+            </div>
+            <div class="content-container">
+                <h4>veg 2.4</h4>
+                <p class="price">₹10.99</p>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+
+
+
+     {% comment %} -------------------------------------------------------------------------------------hidden cards html -------------------------- {% endcomment %}
+
+     {% comment %} -------------------------------------------------------------------burger ctegoery crd 1.1 {% endcomment %}
+
+    <div class="hidden-content" id="content-1.1">
+        <div class="large-card">
+           
+            <div class="back-button">
+                <img src="{% static 'images/back.png' %}" alt="Back Button" onclick="closeContent(1.1)">
+            </div>
+
+            <div class="large-container">
+                <img src="{% static 'images/aloo mutter.png' %}" alt="Burger Image">
+            </div>
+
+            <div class="details">
+                <div class="animation-img"><img src="{% static 'images/aloo mutter.png' %}" alt="Burger Image"></div>
+                <h4>Aloo Mutter</h4>
+                <p class="amount">₹120</p>
+            </div> 
+           
+        </div> 
+        <div class="animation-img-clone"><img src="{% static 'images/aloo mutter.png' %}" alt="Burger Image"></div>
+        <div class="button-container">
+            <div class="add-product-btn">
+                <div class="add-product-btn__expander">
+                    <!-- Button for decrementing -->
+                    <button class="btn btn--icon btn--icon--lg no-tap-highlight minus-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z"></path>
+                        </svg>
+                    </button>
+                    <!-- Counter display -->
+                    <div class="counter" style="margin-left: 20px;"></div>
+                </div>
+                <!-- Button for incrementing -->
+                <button class="btn btn--icon add-product-btn__plus no-tap-highlight">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+            <div class="product-description">
+                <div>a mild, coconut and citrus curry, with prawns, mangetout, peppers, red and spring onions. served with white rice, a sprinkle of mixed sesame seeds, red chillies, coriander and fresh lime
+                </div>
+            </div>    
+        </div>  
+      
+    </div>
+    <div class="hidden-content" id="content-1.2">
+        <div class="large-card">
+
+            <div class="back-button">
+                <img src="{% static 'images/back.png' %}" alt="Back Button" onclick="closeContent(1.2)">
+            </div>
+
+            <div class="large-container">
+                <img src="{% static 'images/mushroom.png' %}" alt="Burger Image">
+            </div>
+
+            <div class="details">
+                <div class="animation-img"><img src="{% static 'images/mushroom.png' %}" alt="Burger Image"></div>
+                <h4>Mashroom Masala </h4>
+                <p class="amount">₹150</p>
+            </div> 
+
+        </div> 
+        <div class="animation-img-clone"><img src="{% static 'images/mushroom.png' %}" alt="Burger Image"></div>
+        <div class="button-container">
+            <div class="add-product-btn">
+                <div class="add-product-btn__expander">
+                    <!-- Button for decrementing -->
+                    <button class="btn btn--icon btn--icon--lg no-tap-highlight minus-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z"></path>
+                        </svg>
+                    </button>
+                    <!-- Counter display -->
+                    <div class="counter" style="margin-left: 20px;"></div>
+                </div>
+                <!-- Button for incrementing -->
+                <button class="btn btn--icon add-product-btn__plus no-tap-highlight">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+            <div class="product-description">
+                <div>a mild, coconut and citrus curry, with prawns, mangetout, peppers, red and spring onions. served with white rice, a sprinkle of mixed sesame seeds, red chillies, coriander and fresh lime
+                </div>
+            </div>    
+        </div>  
+    </div>
+    <div class="hidden-content" id="content-1.3">
+        <div class="large-card">
+
+            <div class="back-button">
+                <img src="{% static 'images/back.png' %}" alt="Back Button" onclick="closeContent(1.3)">
+            </div>
+
+            <div class="large-container">
+                <img src="{% static 'images/burger.png' %}" alt="Burger Image">
+            </div>
+
+            <div class="details">
+                <div class="animation-img"><img src="{% static 'images/burger.png' %}" alt="Burger Image"></div>
+                <h4>burger 1.3 </h4>
+                <p class="amount">₹1000</p>
+            </div> 
+
+        </div> 
+        <div class="animation-img-clone"><img src="{% static 'images/burger.png' %}" alt="Burger Image"></div>
+         <div class="button-container">
+            <div class="add-product-btn">
+                <div class="add-product-btn__expander">
+                    <!-- Button for decrementing -->
+                    <button class="btn btn--icon btn--icon--lg no-tap-highlight minus-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z"></path>
+                        </svg>
+                    </button>
+                    <!-- Counter display -->
+                    <div class="counter" style="margin-left: 20px;"></div>
+                </div>
+                <!-- Button for incrementing -->
+                <button class="btn btn--icon add-product-btn__plus no-tap-highlight">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+            <div class="product-description">
+                <div>a mild, coconut and citrus curry, with prawns, mangetout, peppers, red and spring onions. served with white rice, a sprinkle of mixed sesame seeds, red chillies, coriander and fresh lime
+                </div>
+            </div>    
+        </div>  
+    </div>
+    <div class="hidden-content" id="content-1.4">
+        <div class="large-card">
+
+            <div class="back-button">
+                <img src="{% static 'images/back.png' %}" alt="Back Button" onclick="closeContent(1.4)">
+            </div>
+
+            <div class="large-container">
+                <img src="{% static 'images/aloo mutter.png' %}" alt="Burger Image">
+            </div>
+
+            <div class="details">
+                <div class="animation-img"><img src="{% static 'images/burger.png' %}" alt="Burger Image"></div>
+                <h4>berger 1.4</h4>
+                <p class="amount">₹10.99</p>
+            </div> 
+
+        </div> 
+        <div class="animation-img-clone"><img src="{% static 'images/burger.png' %}" alt="Burger Image"></div>
+         <div class="button-container">
+            <div class="add-product-btn">
+                <div class="add-product-btn__expander">
+                    <!-- Button for decrementing -->
+                    <button class="btn btn--icon btn--icon--lg no-tap-highlight minus-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z"></path>
+                        </svg>
+                    </button>
+                    <!-- Counter display -->
+                    <div class="counter" style="margin-left: 20px;"></div>
+                </div>
+                <!-- Button for incrementing -->
+                <button class="btn btn--icon add-product-btn__plus no-tap-highlight">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+            <div class="product-description">
+                <div>a mild, coconut and citrus curry, with prawns, mangetout, peppers, red and spring onions. served with white rice, a sprinkle of mixed sesame seeds, red chillies, coriander and fresh lime
+                </div>
+            </div>    
+        </div>  
+    </div>
+
+    <div class="hidden-content" id="content-2.1">
+        <div class="large-card">
+
+            <div class="back-button">
+                <img src="{% static 'images/back.png' %}" alt="Back Button" onclick="closeContent(2.1)">
+            </div>
+
+            <div class="large-container">
+                <img src="{% static 'images/burger.png' %}" alt="Burger Image">
+            </div>
+
+            <div class="details">
+                <div class="animation-img"><img src="{% static 'images/burger.png' %}" alt="Burger Image"></div>
+                <h4>veg 2.1 </h4>
+                <p class="amount">$10.99</p>
+            </div> 
+
+        </div> 
+        <div class="animation-img-clone"><img src="{% static 'images/burger.png' %}" alt="Burger Image"></div>
+        <div class="button-container">
+            <div class="add-product-btn">
+                <div class="add-product-btn__expander">
+                    <!-- Button for decrementing -->
+                    <button class="btn btn--icon btn--icon--lg no-tap-highlight minus-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z"></path>
+                        </svg>
+                    </button>
+                    <!-- Counter display -->
+                    <div class="counter" style="margin-left: 20px;"></div>
+                </div>
+                <!-- Button for incrementing -->
+                <button class="btn btn--icon add-product-btn__plus no-tap-highlight">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+            <div class="product-description">
+                <div>a mild, coconut and citrus curry, with prawns, mangetout, peppers, red and spring onions. served with white rice, a sprinkle of mixed sesame seeds, red chillies, coriander and fresh lime
+                </div>
+            </div>    
+        </div>  
+    </div>
+    <div class="hidden-content" id="content-2.2">
+        <div class="large-card">
+
+            <div class="back-button">
+                <img src="{% static 'images/back.png' %}" alt="Back Button" onclick="closeContent(2.2)">
+            </div>
+
+            <div class="large-container">
+                <img src="{% static 'images/burger.png' %}" alt="Burger Image">
+            </div>
+
+            <div class="details">
+                <div class="animation-img"><img src="{% static 'images/burger.png' %}" alt="Burger Image"></div>
+                <h4>veg 2.2 </h4>
+                <p class="amount">$10.99</p>
+            </div> 
+
+        </div> 
+        <div class="animation-img-clone"><img src="{% static 'images/burger.png' %}" alt="Burger Image"></div>
+        <div class="button-container">
+            <div class="add-product-btn">
+                <div class="add-product-btn__expander">
+                    <!-- Button for decrementing -->
+                    <button class="btn btn--icon btn--icon--lg no-tap-highlight minus-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z"></path>
+                        </svg>
+                    </button>
+                    <!-- Counter display -->
+                    <div class="counter" style="margin-left: 20px;"></div>
+                </div>
+                <!-- Button for incrementing -->
+                <button class="btn btn--icon add-product-btn__plus no-tap-highlight">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+            <div class="product-description">
+                <div>a mild, coconut and citrus curry, with prawns, mangetout, peppers, red and spring onions. served with white rice, a sprinkle of mixed sesame seeds, red chillies, coriander and fresh lime
+                </div>
+            </div>    
+        </div>  
+    </div>
+    <div class="hidden-content" id="content-2.3">
+        <div class="large-card">
+
+            <div class="back-button">
+                <img src="{% static 'images/back.png' %}" alt="Back Button" onclick="closeContent(2.3)">
+            </div>
+
+            <div class="large-container">
+                <img src="{% static 'images/burger.png' %}" alt="Burger Image">
+            </div>
+
+            <div class="details">
+                <div class="animation-img"><img src="{% static 'images/burger.png' %}" alt="Burger Image"></div>
+                <h4>veg 2.3 </h4>
+                <p class="amount">$10.99</p>
+            </div> 
+
+        </div> 
+        <div class="animation-img-clone"><img src="{% static 'images/burger.png' %}" alt="Burger Image"></div>
+         <div class="button-container">
+            <div class="add-product-btn">
+                <div class="add-product-btn__expander">
+                    <!-- Button for decrementing -->
+                    <button class="btn btn--icon btn--icon--lg no-tap-highlight minus-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z"></path>
+                        </svg>
+                    </button>
+                    <!-- Counter display -->
+                    <div class="counter" style="margin-left: 20px;"></div>
+                </div>
+                <!-- Button for incrementing -->
+                <button class="btn btn--icon add-product-btn__plus no-tap-highlight">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+            <div class="product-description">
+                <div>a mild, coconut and citrus curry, with prawns, mangetout, peppers, red and spring onions. served with white rice, a sprinkle of mixed sesame seeds, red chillies, coriander and fresh lime
+                </div>
+            </div>    
+        </div>  
+    </div>
+    <div class="hidden-content" id="content-2.4">
+        <div class="large-card">
+
+            <div class="back-button">
+                <img src="{% static 'images/back.png' %}" alt="Back Button" onclick="closeContent(2.4)">
+            </div>
+
+            <div class="large-container">
+                <img src="{% static 'images/burger.png' %}" alt="Burger Image">
+            </div>
+
+            <div class="details">
+                <div class="animation-img"><img src="{% static 'images/burger.png' %}" alt="Burger Image"></div>
+                <h4>veg 2.4</h4>
+                <p class="amount">$2000.99</p>
+            </div> 
+
+        </div> 
+ <div class="animation-img-clone"><img src="{% static 'images/burger.png' %}" alt="Burger Image"></div>
+         <div class="button-container">
+            <div class="add-product-btn">
+                <div class="add-product-btn__expander">
+                    <!-- Button for decrementing -->
+                    <button class="btn btn--icon btn--icon--lg no-tap-highlight minus-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z"></path>
+                        </svg>
+                    </button>
+                    <!-- Counter display -->
+                    <div class="counter" style="margin-left: 20px;"></div>
+                </div>
+                <!-- Button for incrementing -->
+                <button class="btn btn--icon add-product-btn__plus no-tap-highlight">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+            <div class="product-description">
+                <div>a mild, coconut and citrus curry, with prawns, mangetout, peppers, red and spring onions. served with white rice, a sprinkle of mixed sesame seeds, red chillies, coriander and fresh lime
+                </div>
+            </div>    
+        </div>  
+    </div>
+
+
+
+     
+{% comment %} -----------------------------------------------------------------------veg category 2.1 ------------------------ {% endcomment %}
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const plusButtons = document.querySelectorAll('.add-product-btn__plus');
+        const totalPriceElement = document.getElementById('order-details');
+        const totalAmountContainer = document.querySelector('.total-amount');
+    
+        let totalPrice = 0;
+        const orderDetailsMap = new Map(); // Map to store order details for each card
+    
+        plusButtons.forEach((plusButton, index) => {
+            // Find associated elements within the same card
+            const expander = plusButton.closest('.add-product-btn').querySelector('.add-product-btn__expander');
+            const minusButton = plusButton.closest('.add-product-btn').querySelector('.minus-button');
+            const counter = plusButton.closest('.add-product-btn').querySelector('.counter');
+            const counterView = document.querySelectorAll('.counter-2')[index]; // Update according to index
+            const animationImg = plusButton.closest('.hidden-content').querySelector('.animation-img img');
+            const cloneImg = plusButton.closest('.hidden-content').querySelector('.animation-img-clone img');
+    
+            // Extract price from the card
+            const amountElement = plusButton.closest('.hidden-content').querySelector('.amount');
+            const price = parseFloat(amountElement.textContent.replace('₹', ''));
+    
+            // Initialize count for each card
+            let count = 0;
+    
+            // Function to handle incrementing the count
+            function incrementCount() {
+                count++;
+                counter.textContent = count;
+                counterView.textContent = count; // Update counter view
+                expander.classList.add('active');
+                counterView.style.display = 'block'; // Show counter view
+    
+                // Scale up the plus button
+                plusButton.style.transform = 'scale(1.3)';
+                setTimeout(() => {
+                    plusButton.style.transform = 'scale(1)';
+                }, 100); // Reset scale after 100ms (same as transition duration)
+    
+                // Trigger animation for clone image
+                playAnimation();
+    
+                // Update total price
+                totalPrice += price;
+                updateTotalPrice();
+    
+                // Update order details
+                updateOrderDetails(plusButton, count, price);
+            }
+    
+            // Function to update total price in the header
+            function updateTotalPrice() {
+                totalPriceElement.textContent = `Total:₹ ${totalPrice.toFixed(2)}/-`; // Assuming totalPriceElement is defined
+                totalAmountContainer.innerHTML = `Total: <span id="total-price">₹ ${totalPrice.toFixed(2)}/-</span>`;
+            }
+    
+            // Function to play the animation
+            function playAnimation() {
+                cloneImg.classList.remove('animate'); // Reset animation
+                void cloneImg.offsetWidth; // Trigger reflow to restart animation
+                cloneImg.classList.add('animate'); // Apply animation
+            }
+    
+          // Function to update order details
+function updateOrderDetails(button, count, price) {
+    const cardTitle = button.closest('.hidden-content').querySelector('h4').textContent.trim();
+    const orderDetails = `${count} x ${cardTitle}: Rs ${(count * price).toFixed(2)}`;
+
+    if (count === 0) {
+        // If count is 0, remove order detail from map
+        orderDetailsMap.delete(button);
+    } else {
+        // Update or add order detail to map
+        orderDetailsMap.set(button, orderDetails);
+    }
+
+    // Update order details container
+    updateOrderDetailsContainer();
+
+    // Update hidden input fields
+    updateHiddenInputs();
+}
+
+// Function to update order details container
+function updateOrderDetailsContainer() {
+    const orderDetailsContainer = document.getElementById('order-details-container');
+    orderDetailsContainer.innerHTML = ''; // Clear existing order details
+
+    // Iterate over order details map and append each order detail to container
+    orderDetailsMap.forEach(orderDetail => {
+        const orderDetailDiv = document.createElement('div');
+        orderDetailDiv.classList.add('order-details');
+
+        const parts = orderDetail.split(': Rs');
+        const countTitle = parts[0];
+        const price = parseFloat(parts[1]);
+
+        const countTitleDiv = document.createElement('div');
+        countTitleDiv.classList.add('count-title');
+        countTitleDiv.textContent = countTitle;
+
+        const priceDiv = document.createElement('div');
+        priceDiv.classList.add('price');
+        priceDiv.textContent = `Rs ${price.toFixed(2)}`;
+
+        orderDetailDiv.appendChild(countTitleDiv);
+        orderDetailDiv.appendChild(priceDiv);
+
+        orderDetailsContainer.appendChild(orderDetailDiv);
+    });
+}
+
+// Function to calculate total price
+function calculateTotalPrice() {
+    let totalPrice = 0;
+    // Iterate over order details map to sum up the prices
+    orderDetailsMap.forEach(orderDetail => {
+        const parts = orderDetail.split(': Rs');
+        const price = parseFloat(parts[1]);
+        totalPrice += price;
+    });
+    return totalPrice.toFixed(2);
+}
+
+// Function to update hidden input fields
+function updateHiddenInputs() {
+    const orderDetailsInput = document.getElementById('order-details-hidden');
+    const formattedOrderDetails = formatOrderDetails();
+    orderDetailsInput.value = formattedOrderDetails;
+
+    const totalPriceInput = document.getElementById('total-price-hidden');
+    const totalPrice = calculateTotalPrice();
+    totalPriceInput.value = totalPrice;
+}
+
+// Function to format order details
+function formatOrderDetails() {
+    let formattedDetails = '';
+    orderDetailsMap.forEach(orderDetail => {
+        const parts = orderDetail.split(': Rs ');
+        const countTitle = parts[0];
+        const price = parts[1];
+        const formattedDetail = `${countTitle} - Rs ${price}\n`;
+        formattedDetails += formattedDetail;
+    });
+    return formattedDetails.trim(); // Trim any leading/trailing whitespace
+}
+
+            // Function to handle decrementing the count
+            function decrementCount() {
+                if (count > 0) {
+                    count--;
+                    counter.textContent = count;
+                    counterView.textContent = count; // Update counter view
+    
+                    // Update total price only if count is greater than 0
+                    if (totalPrice > 0) {
+                        totalPrice -= price;
+                        updateTotalPrice();
+                    }
+                }
+    
+                // Hide expander and counter view when count becomes 0
+                if (count === 0) {
+                    expander.classList.remove('active');
+                    counterView.textContent = ''; // Clear counter view
+                    counterView.style.display = 'none'; // Hide counter view
+                }
+    
+                // Update order details
+                updateOrderDetails(plusButton, count, price);
+            }
+    
+            // Event listener for the plus button
+            plusButton.addEventListener('click', () => {
+                incrementCount();
+            });
+    
+            // Event listener for the minus button
+            minusButton.addEventListener('click', () => {
+                decrementCount();
+            });
+    
+            // Event listener for the back button to reset animation state when card is closed
+            const backButton = plusButton.closest('.hidden-content').querySelector('.back-button img');
+            backButton.addEventListener('click', () => {
+                cloneImg.classList.remove('animate'); // Reset animation
+            });
+        });
+    });
+</script>
+
+
+
+
+{% comment %} ------------------------------------------------------------------------------------------------------- {% endcomment %}
+
+
+
+<script>
+    // Function to show the hidden content with a fade-in effect
+    function showContent(contentId) {
+        // Hide all hidden contents and set opacity to 0 initially
+        document.querySelectorAll('.hidden-content').forEach(content => {
+            content.classList.remove('visible'); // Remove 'visible' class
+            content.style.opacity = 0; // Ensure opacity is set to 0 initially for fade-in effect
+        });
+
+        // Show the selected hidden content with a fade-in effect
+        const selectedContent = document.getElementById(`content-${contentId}`);
+        selectedContent.classList.add('visible'); // Add 'visible' class to show the content
+
+        // Gradually increase opacity for fade-in effect
+        let opacity = 0;
+        const fadeInInterval = setInterval(() => {
+            opacity += 0.1; // Increase opacity gradually
+            selectedContent.style.opacity = opacity; // Apply opacity to the selected content
+            if (opacity >= 1) {
+                clearInterval(fadeInInterval); // Stop the interval when opacity reaches 1
+            }
+        }, 1); // Adjust the interval for smoother or faster fade-in effect
+    }
+
+    // Function to close the currently visible content with a fade-out effect
+    function closeContent(contentId) {
+        // Hide the selected hidden content with a fade-out effect
+        const selectedContent = document.getElementById(`content-${contentId}`);
+        selectedContent.style.opacity = 0; // Set opacity to 0 for fade-out effect
+        setTimeout(() => {
+            selectedContent.classList.remove('visible'); // Remove 'visible' class after fade-out
+        }, 500); // Wait for the fade-out transition to complete before removing 'visible' class
+    }
+
+    // Function to toggle visibility of grid containers based on the clicked card
+    function toggleItems(cardId) {
+        const itemCards = document.querySelectorAll('.grid-container');
+        itemCards.forEach(card => {
+            if (card.id === cardId) {
+                card.classList.add('visible'); // Add 'visible' class to show the container
+            } else {
+                card.classList.remove('visible'); // Remove 'visible' class to hide other containers
+            }
+        });
+    }
+
+    // Function to set the default visible content when the page loads
+    function setDefault() {
+        // Display default content (e.g., card 1)
+        const defaultContent = document.getElementById('burger');
+        defaultContent.classList.add('visible'); // Add 'visible' class to show the default content
+    }
+</script>
+
+
+
+        {% comment %} -------------------------------------------------------------------------------------------------------JAVASCRIPT------------------ {% endcomment %}
+        
+        {% comment %} --------------------------------------------------------------js for the scrollmenu ------------------------- {% endcomment %}
+        
+        
+
+        {% comment %} js for the slide up scroll menu  {% endcomment %}
+
+
+        <script>
+            const header = document.getElementById('header');
+            const scrollMenu = document.getElementById('scrollmenu'); // Make sure this matches your HTML ID
+            const container = document.getElementById('container');
+
+            let lastScrollTop = 0;
+
+            container.addEventListener('scroll', function() {
+            let scrollTop = container.scrollTop;
+            let scrollAmount = scrollTop - lastScrollTop;
+
+            // Determine the direction of scroll
+            if (scrollAmount > 0) {
+                // Scroll down
+                if (scrollTop > 50) {
+                header.style.top = '-62px'; // Slide up the header
+                scrollMenu.style.top = '0px'; // Slide up the menu
+                scrollMenu.classList.add('shadow'); // Add shadow class only when at the top
+                }
+            } else {
+                // Scroll up
+                header.style.top = '0'; // Slide down the header
+                scrollMenu.style.top = '62px'; // Slide down the menu
+                if (scrollTop === 0) {
+                scrollMenu.classList.remove('shadow'); // Remove shadow class
+                }
+            }
+            lastScrollTop = scrollTop;
+            });
+
+        </script>
+
+
+
+
+        <script>
+             {% comment %} js for the slider highlighter  {% endcomment %}
+            document.addEventListener('DOMContentLoaded', function() {
+                const highlighter = document.querySelector('.highlighter');
+                const menuItems = document.getElementById('scrollmenu');
+                const cards = document.querySelectorAll('.card');
+                let isFirstSelection = true; // Flag to track the first selection
+            
+                // Initialize highlighter position based on the active card
+                moveHighlighter();
+            
+                // Add click event listeners to each card
+                cards.forEach((card, index) => {
+                    card.addEventListener('click', function() {
+                        highlightMenuItem(index);
+                    });
+                });
+            
+                // Function to highlight the active menu item
+                function highlightMenuItem(index) {
+                    // Remove active class from all cards
+                    cards.forEach(card => {
+                        card.classList.remove('active');
+                    });
+            
+                    // Add active class to the clicked card
+                    cards[index].classList.add('active');
+            
+                    // Move the highlighter to the clicked card
+                    moveHighlighter();
+                }
+            
+                // Function to move the highlighter to the active card
+                function moveHighlighter() {
+                    const activeCard = document.querySelector('.card.active');
+                    const cardImg = activeCard.querySelector('img'); // Get the card image
+                    const cardImgRect = cardImg.getBoundingClientRect();
+                    const menuItemsRect = menuItems.getBoundingClientRect();
+                    const scrollLeft = menuItems.scrollLeft; // Get the scroll left position of the menu
+                    const highlighterLeft = cardImgRect.left - menuItemsRect.left + scrollLeft;
+            
+                    // Move the highlighter to behind the card image with or without transition
+                    if (isFirstSelection) {
+                        isFirstSelection = false; // Set flag to false after the first selection
+                        highlighter.style.transition = 'none'; // Disable transition for the first selection
+                    } else {
+                        highlighter.style.transition = 'transform 0.5s ease'; // Enable transition for subsequent selections
+                    }
+                    highlighter.style.transform = `translateX(${highlighterLeft}px)`;
+                }
+            
+                // Update highlighter position when the menu is scrolled
+                menuItems.addEventListener('scroll', function() {
+                    moveHighlighter();
+                });
+            });
+            
+        </script>  
+    </div>
+     </div>
+  
+    </div>
+</body>
+</html>
